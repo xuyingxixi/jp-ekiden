@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日本驿传观赛导航</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Microsoft YaHei", "Hiragino Sans", "Noto Sans JP", sans-serif;
+            /* 背景图：覆盖整个页面，居中裁剪，固定不动 */
+            background: url('background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            /* 后备：如果图片未加载，显示渐变色 */
+            background-color: #e51e21;
+            min-height: 100vh;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        /* 半透明遮罩层：确保文字可读性 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.35);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* 所有内容在遮罩层上方 */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* ==================== 语言切换按钮 ==================== */
+        .lang-switch-wrap {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 10px;
+        }
+
+        .lang-switch {
+            display: flex;
+            background: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.4);
+        }
+
+        .lang-btn {
+            padding: 6px 16px;
+            font-size: 13px;
+            border: none;
+            background: transparent;
+            color: rgba(255,255,255,0.8);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .lang-btn.active {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            color: white;
+            font-weight: bold;
+        }
+
+        .lang-btn:not(.active):hover {
+            background: rgba(255,255,255,0.15);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .lang-switch-wrap {
+                margin-bottom: 16px;
+            }
+            .lang-btn {
+                padding: 5px 12px;
+                font-size: 12px;
+            }
+        }
+
+        /* 头部 */
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .header .subtitle {
+            font-size: 15px;
+            opacity: 0.9;
+            line-height: 1.7;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* 分类区块 */
+        .category {
+            background: rgba(255,255,255,0.5);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.4);
+        }
+
+        .category-title {
+            font-size: 22px;
+            color: #333;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #e51e21;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* 网站卡片 */
+        .site-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        .site-card {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border-radius: 8px;
+            padding: 16px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.25);
+        }
+
+        .site-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(229, 30, 33, 0.2);
+            border-color: #e51e21;
+        }
+
+        .site-name {
+            font-size: 17px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 6px;
+        }
+
+        .site-desc {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .site-link {
+            display: inline-block;
+            color: #e51e21;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            padding: 4px 12px;
+            border-radius: 20px;
+            background: rgba(229, 30, 33, 0.1);
+            transition: all 0.2s;
+        }
+
+        .site-link:hover {
+            background: #e51e21;
+            color: white;
+        }
+
+        /* ==================== 日历模块 ==================== */
+        .calendar-module {
+            background: rgba(255,255,255,0.5);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            border-radius: 12px;
+            padding: 18px 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.4);
+        }
+
+        .calendar-main-title {
+            font-size: 18px;
+            color: #333;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .calendar-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 10px;
+        }
+
+        .calendar-title {
+            font-size: 15px;
+            color: #333;
+            font-weight: bold;
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .calendar-nav {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.4);
+            background: rgba(255,255,255,0.2);
+            cursor: pointer;
+            font-size: 13px;
+            color: #fff;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .calendar-nav:hover {
+            background: #e51e21;
+            color: white;
+            border-color: #e51e21;
+        }
+
+        .calendar-nav:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .calendar-nav:disabled:hover {
+            background: rgba(255,255,255,0.2);
+            color: rgba(255,255,255,0.6);
+            border-color: rgba(255,255,255,0.3);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            text-align: center;
+            gap: 2px;
+        }
+
+        .calendar-day-header {
+            font-size: 12px;
+            color: #333;
+            padding: 4px 0;
+            font-weight: 500;
+        }
+
+        .calendar-day-header.weekend {
+            color: #e51e21;
+        }
+
+        .calendar-cell {
+            background: rgba(255,255,255,0.35);
+            border-radius: 6px;
+            padding: 5px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            justify-content: center;
+            border-radius: 6px;
+            cursor: default;
+            transition: all 0.2s;
+            position: relative;
+            font-size: 13px;
+            color: #333;
+            min-height: 36px;
+        }
+
+        .calendar-cell.empty {
+            cursor: default;
+        }
+
+        .calendar-cell.today {
+            background: #f5eedb;
+            color: #8c6215;
+            font-weight: bold;
+            border: 2px solid #b57f1b;
+        }
+
+        .calendar-cell.race-day {
+            background: white;
+            color: #e51e21;
+            font-weight: bold;
+            cursor: pointer;
+            border: 2px solid #e51e21;
+        }
+
+        .calendar-cell.race-day:hover {
+            background: #e51e21;
+            color: white;
+        }
+
+        .calendar-cell.race-day.today {
+            background: #f5eedb;
+            color: #e51e21;
+            border: 2px solid #e51e21;
+        }
+
+        /* 其他比赛日 */
+        .calendar-cell.other-race-day {
+            background: white;
+            color: #1565c0;
+            font-weight: bold;
+            cursor: pointer;
+            border: 2px solid #1976d2;
+        }
+
+        .calendar-cell.other-race-day:hover {
+            background: #1976d2;
+            color: white;
+        }
+
+        .calendar-cell.other-race-day.today {
+            background: #f5eedb;
+            color: #1565c0;
+            border: 2px solid #1976d2;
+        }
+
+        /* 同时是驿传比赛日和其他比赛日 */
+        .calendar-cell.race-day.other-race-day {
+            background: white;
+            color: #e51e21;
+            border: 2px solid #e51e21;
+        }
+
+        .calendar-cell.race-day.other-race-day:hover {
+            background: #e51e21;
+            color: white;
+        }
+
+        .calendar-cell.race-day.other-race-day.today {
+            background: #f5eedb;
+            color: #e51e21;
+            border: 2px solid #e51e21;
+        }
+
+        .race-tooltip {
+            display: none;
+            position: absolute;
+            bottom: calc(100% + 6px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            z-index: 10;
+            pointer-events: none;
+            font-weight: normal;
+        }
+
+        .race-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+            border-top-color: #333;
+        }
+
+        .calendar-cell.race-day:hover .race-tooltip,
+        .calendar-cell.other-race-day:hover .race-tooltip {
+            display: block;
+        }
+
+        .calendar-cell.race-day:active .race-tooltip,
+        .calendar-cell.other-race-day:active .race-tooltip {
+            display: block;
+        }
+
+        .calendar-legend {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-top: 8px;
+            font-size: 12px;
+            color: #333;
+        }
+
+        .calendar-legend span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .legend-dot.today {
+            background: #f5eedb;
+            border: 1px solid #b57f1b;
+        }
+
+        .legend-dot.race {
+            background: white;
+            border: 2px solid #e51e21;
+        }
+
+        .legend-dot.other-race {
+            background: white;
+            border: 2px solid #1976d2;
+        }
+
+        /* ==================== 触屏优化（全局） ==================== */
+        .calendar-nav,
+        .calendar-cell,
+        .site-link,
+        .contact-link,
+        .site-card,
+        .lang-btn {
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+        }
+
+        /* 触屏设备 */
+        @media (hover: none) {
+            .site-card:hover {
+                transform: none;
+                box-shadow: none;
+                border-color: #e9ecef;
+            }
+
+            .site-card:active {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(229, 30, 33, 0.2);
+                border-color: #e51e21;
+            }
+
+            .calendar-cell.race-day:hover {
+                background: rgba(229, 30, 33, 0.1);
+                color: #e51e21;
+            }
+
+            .calendar-cell.race-day:active {
+                background: #e51e21;
+                color: white;
+            }
+
+            .calendar-cell.other-race-day:hover {
+                background: rgba(25, 118, 210, 0.1);
+                color: #1565c0;
+            }
+
+            .calendar-cell.other-race-day:active {
+                background: #1976d2;
+                color: white;
+            }
+
+            .site-link:hover {
+                background: rgba(229, 30, 33, 0.1);
+                color: #e51e21;
+            }
+
+            .site-link:active {
+                background: #e51e21;
+                color: white;
+            }
+
+            .calendar-nav:hover {
+                background: rgba(255,255,255,0.2);
+                color: rgba(255,255,255,0.6);
+                border-color: rgba(255,255,255,0.3);
+            }
+
+            .calendar-nav:active {
+                background: #e51e21;
+                color: white;
+                border-color: #e51e21;
+            }
+
+            .calendar-nav:disabled:active {
+                background: rgba(255,255,255,0.2);
+                color: rgba(255,255,255,0.6);
+                border-color: rgba(255,255,255,0.3);
+            }
+        }
+
+        /* ==================== 平板适配 ==================== */
+        @media (max-width: 1024px) {
+            .site-list {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            }
+        }
+
+        /* ==================== 手机适配 ==================== */
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 12px;
+                background-image: url('background-2.jpg');
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .header .subtitle {
+                font-size: 13px;
+                line-height: 1.6;
+                max-width: 100%;
+            }
+
+            .header {
+                margin-bottom: 20px;
+            }
+
+            .category {
+                padding: 16px;
+                margin-bottom: 15px;
+            }
+
+            .category-title {
+                font-size: 17px;
+                padding-bottom: 8px;
+                margin-bottom: 12px;
+            }
+
+            .site-list {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .site-card {
+                padding: 12px;
+            }
+
+            .site-name {
+                font-size: 15px;
+            }
+
+            .site-desc {
+                font-size: 12px;
+            }
+
+            .site-link {
+                font-size: 12px;
+                padding: 6px 14px;
+            }
+
+            .calendar-module {
+                padding: 12px 14px;
+                margin-bottom: 15px;
+            }
+
+            .calendar-main-title {
+                font-size: 15px;
+                margin-bottom: 8px;
+            }
+
+            .calendar-header {
+                gap: 12px;
+                margin-bottom: 8px;
+            }
+
+            .calendar-title {
+                font-size: 14px;
+                min-width: 100px;
+            }
+
+            .calendar-nav {
+                width: 32px;
+                height: 32px;
+                font-size: 14px;
+            }
+
+            .calendar-day-header {
+                font-size: 11px;
+                padding: 3px 0;
+            }
+
+            .calendar-cell {
+                font-size: 12px;
+                padding: 6px 0;
+                min-height: 34px;
+            }
+
+            .race-tooltip {
+                font-size: 10px;
+                padding: 3px 8px;
+                white-space: nowrap;
+                text-align: center;
+            }
+
+            .calendar-legend {
+                gap: 10px;
+                margin-top: 6px;
+                font-size: 11px;
+                flex-wrap: wrap;
+            }
+
+            .footer {
+                margin-top: 20px;
+                font-size: 12px;
+            }
+        }
+
+        /* 联系方式链接 */
+        .contact-link {
+            color: inherit;
+            text-decoration: underline;
+            transition: opacity 0.2s;
+        }
+
+        .contact-link:hover {
+            opacity: 0.7;
+        }
+
+        /* 底部 */
+        .footer {
+            text-align: center;
+            color: white;
+            opacity: 0.7;
+            margin-top: 40px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 语言切换按钮 -->
+        <div class="lang-switch-wrap">
+            <div class="lang-switch">
+                <button class="lang-btn active" data-lang="zh" id="btnZh">中文</button>
+                <button class="lang-btn" data-lang="ja" id="btnJa">日本語</button>
+            </div>
+        </div>
+
+        <!-- 头部 -->
+        <div class="header">
+            <h1 data-i18n="siteTitle">日本驿传观赛导航</h1>
+            <p class="subtitle">
+                <span data-i18n="siteDesc1">本网站收录日本各驿传比赛、陆上竞技联盟、陆上竞技媒体官方网站，方便对日本驿传比赛感兴趣的朋友们查阅资料。</span><br>
+                <span data-i18n="siteDesc2">网站在不断完善中，如有意见或建议请联系</span><a class="contact-link" href="https://xhslink.com/m/3iTY27O5kzz" target="_blank">@温暖小葵</a>
+            </p>
+        </div>
+
+        <!-- ==================== 日历模块 ==================== -->
+        <div class="calendar-module">
+            <div class="calendar-main-title">📅 <span data-i18n="calendarMainTitle">日本驿传比赛日历</span></div>
+            <div class="calendar-header">
+                <button class="calendar-nav" id="prevMonth" title="上一个月">◀</button>
+                <span class="calendar-title" id="calendarTitle">2026年6月</span>
+                <button class="calendar-nav" id="nextMonth" title="下一个月">▶</button>
+            </div>
+            <div class="calendar-grid" id="calendarGrid">
+                <div class="calendar-day-header weekend">日</div>
+                <div class="calendar-day-header">一</div>
+                <div class="calendar-day-header">二</div>
+                <div class="calendar-day-header">三</div>
+                <div class="calendar-day-header">四</div>
+                <div class="calendar-day-header">五</div>
+                <div class="calendar-day-header weekend">六</div>
+            </div>
+            <div class="calendar-legend">
+                <span><span class="legend-dot today"></span> <span data-i18n="legendToday">今日</span></span>
+                <span><span class="legend-dot race"></span> <span data-i18n="legendRace">驿传比赛日</span></span>
+                <span><span class="legend-dot other-race"></span> <span data-i18n="legendOther">其他比赛日</span></span>
+            </div>
+        </div>
+
+        <!-- ==================== 大学生驿传比赛官方网站 ==================== -->
+        <div class="category">
+            <h2 class="category-title" data-i18n="catCollegeTitle">🏫 大学生驿传比赛官方网站</h2>
+            <div class="site-list">
+                <div class="site-card">
+                    <div class="site-name">箱根驿传</div>
+                    <div class="site-desc" data-i18n="descHakone">日本三大学生驿传之一，每年1月2日、3日在东京-箱根举办，全程217.1公里</div>
+                    <a class="site-link" href="https://www.hakone-ekiden.jp/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                </div>
+                <div class="site-card">
+                    <div class="site-name">全日本大学驿传</div>
+                    <div class="site-desc" data-i18n="descDaigaku">日本三大学生驿传之一，每年11月在名古屋举办，全程106.8公里</div>
+                    <a class="site-link" href="https://daigaku-ekiden.com/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                </div>
+                <div class="site-card">
+                    <div class="site-name">出云驿传</div>
+                    <div class="site-desc" data-i18n="descIzumo">日本三大学生驿传之一，每年10月在出云举办，全程45.1公里</div>
+                    <a class="site-link" href="https://www.izumo-ekiden.jp/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                </div>
+                <div class="site-card">
+                    <div class="site-name">全日本大学女子驿传</div>
+                    <div class="site-desc" data-i18n="descDaigakuWomen">每年10月在仙台举办，全程38公里</div>
+                    <a class="site-link" href="https://www.morino-miyako.com/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                </div>
+                <div class="site-card">
+                    <div class="site-name">富士山女子驿传</div>
+                    <div class="site-desc" data-i18n="descFujisan">每年12月30日在富士举办，全程43.4公里</div>
+                    <a class="site-link" href="https://www.fujisan-joshiekiden.jp/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== 实业团驿传比赛官方网站 ==================== -->
+        <div class="category">
+            <h2 class="category-title" data-i18n="catBusinessTitle">🏢 实业团驿传比赛官方网站</h2>
+            <div class="site-list">
+                <div class="site-card">
+                    <div class="site-name">全日本实业团驿传（新年驿传）</div>
+                    <div class="site-desc" data-i18n="descNewYear">日本水平最高的驿传比赛，每年1月1日在群马举办，全程100公里</div>
+                    <a class="site-link" href="https://www.tbs.co.jp/newyearekiden/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                </div>
+                <div class="site-card">
+                    <div class="site-name">全日本实业团女子驿传（皇后驿传）</div>
+                    <div class="site-desc" data-i18n="descQueen">日本水平最高的女子驿传比赛，每年11月在仙台举办，全程42.195公里</div>
+                    <a class="site-link" href="https://www.tbs.co.jp/ekiden/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== 全国都道府县驿传比赛官方网站 ==================== -->
+        <div class="category">
+            <h2 class="category-title" data-i18n="catPrefTitle">🗾 全国都道府县驿传比赛官方网站</h2>
+            <div class="site-list">
+                <div class="site-card">
+                    <div class="site-name">全国都道府县男子驿传</div>
+                    <div class="site-desc" data-i18n="descPrefMen">实业团、大学生、中学生混合比赛，每年1月在京都举办，全程48.9公里</div>
+                    <a class="site-link" href="https://www.hiroshima-ekiden.com/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                </div>
+                <div class="site-card">
+                    <div class="site-name">全国都道府县女子驿传</div>
+                    <div class="site-desc" data-i18n="descPrefWomen">实业团、大学生、中学生混合比赛，每年1月在京都举办，全程42.195公里</div>
+                    <a class="site-link" href="https://www.womens-ekiden.jp/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== 日本陆上竞技团体网站 ==================== -->
+        <div class="category">
+            <h2 class="category-title" data-i18n="catOrgTitle">🏅 日本陆上竞技团体网站</h2>
+            <div class="site-list">
+                <div class="site-card">
+                    <div class="site-name">日本陆上竞技联盟</div>
+                    <div class="site-desc" data-i18n="descJAAF">可查询日本队过往战绩、MGC、日本纪录等</div>
+                    <a class="site-link" href="https://www.jaaf.or.jp/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                </div>
+                <div class="site-card">
+                    <div class="site-name">日本实业团陆上竞技联合</div>
+                    <div class="site-desc" data-i18n="descJITA">可查询日本实业团比赛信息</div>
+                    <a class="site-link" href="http://www.jita-trackfield.jp/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                </div>
+                <div class="site-card">
+                    <div class="site-name">东日本实业团陆上竞技联盟</div>
+                    <div class="site-desc" data-i18n="descHNJ">可查询东日本实业团比赛信息</div>
+                    <a class="site-link" href="http://hnj.jita-trackfield.jp/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                </div>
+                <div class="site-card">
+                    <div class="site-name">日本学生陆上竞技联合</div>
+                    <div class="site-desc" data-i18n="descIUAU">可查询日本学生比赛信息、纪录等</div>
+                    <a class="site-link" href="https://www.iuau.jp/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                </div>
+                <div class="site-card">
+                    <div class="site-name">关东学生陆上竞技联盟</div>
+                    <div class="site-desc" data-i18n="descKGRR">可查询关东学生比赛信息、纪录等</div>
+                    <a class="site-link" href="https://www.kgrr.org/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== 日本陆上竞技媒体网站 ==================== -->
+        <div class="category">
+            <h2 class="category-title" data-i18n="catMediaTitle">📰 日本陆上竞技媒体网站</h2>
+            <div class="site-list">
+                <div class="site-card">
+                    <div class="site-name">月刊陆上竞技</div>
+                    <div class="site-desc" data-i18n="descGekkan">日本田径权威杂志，有驿传专刊</div>
+                    <a class="site-link" href="https://www.rikujyokyogi.co.jp/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                </div>
+                <div class="site-card">
+                    <div class="site-name">Sportiva集英社</div>
+                    <div class="site-desc" data-i18n="descSportiva">日本综合体育期刊，有深度纪实和选手专访</div>
+                    <a class="site-link" href="https://sportiva.shueisha.co.jp/clm/othersports/rikujo/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                </div>
+                <div class="site-card">
+                    <div class="site-name">读卖新闻</div>
+                    <div class="site-desc" data-i18n="descYomiuri">箱根驿传主办方，有箱根驿传专栏</div>
+                    <a class="site-link" href="https://www.yomiuri.co.jp/hakone-ekiden/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部 -->
+        <div class="footer">
+            <p>
+                <span data-i18n="footerText">日本驿传观赛导航 © 2026 | 联系</span>
+                <a class="contact-link" href="https://xhslink.com/m/3iTY27O5kzz" target="_blank">@温暖小葵</a>
+                <span data-i18n="footerOr"> 或 </span>691393516@qq.com
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // ==================== 多语言翻译数据 ====================
+        var I18N = {
+            zh: {
+                siteTitle: '日本驿传观赛导航',
+                siteDesc1: '本网站收录日本各驿传比赛、陆上竞技联盟、陆上竞技媒体官方网站，方便对日本驿传比赛感兴趣的朋友们查阅资料。',
+                siteDesc2: '网站在不断完善中，如有意见或建议请联系',
+                calendarMainTitle: '日本驿传比赛日历',
+                legendToday: '今日',
+                legendRace: '驿传比赛日',
+                legendOther: '其他比赛日',
+                visitSite: '访问网站 →',
+                catCollegeTitle: '🏫 大学生驿传比赛官方网站',
+                catBusinessTitle: '🏢 实业团驿传比赛官方网站',
+                catPrefTitle: '🗾 全国都道府县驿传比赛官方网站',
+                catOrgTitle: '🏅 日本陆上竞技团体网站',
+                catMediaTitle: '📰 日本陆上竞技媒体网站',
+                descHakone: '日本三大学生驿传之一，每年1月2日、3日在东京-箱根举办，全程217.1公里',
+                descDaigaku: '日本三大学生驿传之一，每年11月在名古屋举办，全程106.8公里',
+                descIzumo: '日本三大学生驿传之一，每年10月在出云举办，全程45.1公里',
+                descDaigakuWomen: '每年10月在仙台举办，全程38公里',
+                descFujisan: '每年12月30日在富士举办，全程43.4公里',
+                descNewYear: '日本水平最高的驿传比赛，每年1月1日在群马举办，全程100公里',
+                descQueen: '日本水平最高的女子驿传比赛，每年11月在仙台举办，全程42.195公里',
+                descPrefMen: '实业团、大学生、中学生混合比赛，每年1月在京都举办，全程48.9公里',
+                descPrefWomen: '实业团、大学生、中学生混合比赛，每年1月在京都举办，全程42.195公里',
+                descJAAF: '可查询日本队过往战绩、MGC、日本纪录等',
+                descJITA: '可查询日本实业团比赛信息',
+                descHNJ: '可查询东日本实业团比赛信息',
+                descIUAU: '可查询日本学生比赛信息、纪录等',
+                descKGRR: '可查询关东学生比赛信息、纪录等',
+                descGekkan: '日本田径权威杂志，有驿传专刊',
+                descSportiva: '日本综合体育期刊，有深度纪实和选手专访',
+                descYomiuri: '箱根驿传主办方，有箱根驿传专栏',
+                footerText: '日本驿传观赛导航 © 2026 | 联系',
+                footerOr: ' 或 ',
+                monthFormat: '{year}年{month}月',
+                dayNames: ['日', '一', '二', '三', '四', '五', '六'],
+                prevTitle: '上一个月',
+                nextTitle: '下一个月',
+                // 比赛名称（日语）
+                raceNames: {
+                    "2026-10-12": "出云驿传",
+                    "2026-10-17": "箱根驿传预选会",
+                    "2026-10-25": "全日本大学女子驿传",
+                    "2026-11-01": "全日本大学驿传",
+                    "2026-11-15": "东日本实业团驿传",
+                    "2026-11-22": "全日本实业团女子驿传（皇后驿传）",
+                    "2026-12-30": "富士山女子驿传",
+                    "2027-01-01": "全日本实业团驿传（新年驿传）",
+                    "2027-01-02": "箱根驿传（往路）",
+                    "2027-01-03": "箱根驿传（复路）",
+                    "2027-01-17": "全国都道府县女子驿传",
+                    "2027-01-24": "全国都道府县男子驿传"
+                },
+                otherRaceNames: {
+                    "2026-06-12": "日本陆上竞技选手权大会",
+                    "2026-06-13": "日本陆上竞技选手权大会",
+                    "2026-06-14": "日本陆上竞技选手权大会",
+                    "2026-07-05": "全日本实业团对抗陆上竞技选手权10000m",
+                    "2026-09-23": "爱知·名古屋亚运会",
+                    "2026-09-24": "爱知·名古屋亚运会",
+                    "2026-09-25": "爱知·名古屋亚运会",
+                    "2026-09-26": "爱知·名古屋亚运会",
+                    "2026-09-27": "爱知·名古屋亚运会",
+                    "2026-09-28": "爱知·名古屋亚运会",
+                    "2026-09-29": "爱知·名古屋亚运会",
+                    "2026-12-06": "福冈国际马拉松",
+                    "2027-02-07": "别府大分每日马拉松大会 / 香川丸龟国际半程马拉松",
+                    "2027-02-21": "青梅马拉松 / 京都马拉松",
+                    "2027-02-28": "大阪马拉松",
+                    "2027-03-07": "东京马拉松",
+                    "2027-03-14": "名古屋女子马拉松"
+                },
+                raceIcon: '🏃',
+                otherRaceIcon: '🏅'
+            },
+            ja: {
+                siteTitle: '日本駅伝観戦ナビ',
+                siteDesc1: '当サイトは日本の各駅伝大会、陸上競技連盟、陸上競技メディアの公式サイトをまとめ、日本の駅伝に興味のある方々の情報収集をサポートします。',
+                siteDesc2: 'サイトは随時更新中です。ご意見・ご要望がございましたら',
+                calendarMainTitle: '日本駅伝大会カレンダー',
+                legendToday: '今日',
+                legendRace: '駅伝大会日',
+                legendOther: 'その他の大会日',
+                visitSite: 'サイトへ →',
+                catCollegeTitle: '🏫 大学駅伝公式サイト',
+                catBusinessTitle: '🏢 実業団駅伝公式サイト',
+                catPrefTitle: '🗾 全国都道府県駅伝公式サイト',
+                catOrgTitle: '🏅 日本陸上競技団体サイト',
+                catMediaTitle: '📰 日本陸上競技メディアサイト',
+                descHakone: '大学三大駅伝の一つ。毎年1月2日・3日に東京-箱根間で開催、全長217.1km',
+                descDaigaku: '大学三大駅伝の一つ。毎年11月に名古屋で開催、全長106.8km',
+                descIzumo: '大学三大駅伝の一つ。毎年10月に出雲で開催、全長45.1km',
+                descDaigakuWomen: '毎年10月に仙台で開催、全長38km',
+                descFujisan: '毎年12月30日に富士で開催、全長43.4km',
+                descNewYear: '日本最高峰の駅伝大会。毎年1月1日に群馬で開催、全長100km',
+                descQueen: '日本最高峰の女子駅伝大会。毎年11月に仙台で開催、全長42.195km',
+                descPrefMen: '実業団・大学生・中学生の混成競技。毎年1月に京都で開催、全長48.9km',
+                descPrefWomen: '実業団・大学生・中学生の混成競技。毎年1月に京都で開催、全長42.195km',
+                descJAAF: '日本代表の戦績、MGC、日本記録などを検索できます',
+                descJITA: '日本実業団の大会情報を検索できます',
+                descHNJ: '東日本実業団の大会情報を検索できます',
+                descIUAU: '日本学生の大会情報・記録などを検索できます',
+                descKGRR: '関東学生の大会情報・記録などを検索できます',
+                descGekkan: '日本陸上競技の専門誌、駅伝特集あり',
+                descSportiva: '日本の総合スポーツ誌、深いルポルタージュと選手インタビュー',
+                descYomiuri: '箱根駅伝主催者、箱根駅伝コラムあり',
+                footerText: '日本駅伝観戦ナビ © 2026 | お問い合わせ',
+                footerOr: ' または ',
+                monthFormat: '{year}年{month}月',
+                dayNames: ['日', '月', '火', '水', '木', '金', '土'],
+                prevTitle: '前の月',
+                nextTitle: '次の月',
+                raceNames: {
+                    "2026-10-12": "出雲駅伝",
+                    "2026-10-17": "箱根駅伝予選会",
+                    "2026-10-25": "全日本大学女子駅伝",
+                    "2026-11-01": "全日本大学駅伝",
+                    "2026-11-15": "東日本実業団駅伝",
+                    "2026-11-22": "全日本実業団女子駅伝（クイーンズ駅伝）",
+                    "2026-12-30": "富士山女子駅伝",
+                    "2027-01-01": "全日本実業団駅伝（ニューイヤー駅伝）",
+                    "2027-01-02": "箱根駅伝（往路）",
+                    "2027-01-03": "箱根駅伝（復路）",
+                    "2027-01-17": "全国都道府県女子駅伝",
+                    "2027-01-24": "全国都道府県男子駅伝"
+                },
+                otherRaceNames: {
+                    "2026-06-12": "日本陸上競技選手権大会",
+                    "2026-06-13": "日本陸上競技選手権大会",
+                    "2026-06-14": "日本陸上競技選手権大会",
+                    "2026-07-05": "全日本実業団対抗陸上競技選手権10000m",
+                    "2026-09-23": "愛知・名古屋アジア競技大会",
+                    "2026-09-24": "愛知・名古屋アジア競技大会",
+                    "2026-09-25": "愛知・名古屋アジア競技大会",
+                    "2026-09-26": "愛知・名古屋アジア競技大会",
+                    "2026-09-27": "愛知・名古屋アジア競技大会",
+                    "2026-09-28": "愛知・名古屋アジア競技大会",
+                    "2026-09-29": "愛知・名古屋アジア競技大会",
+                    "2026-12-06": "福岡国際マラソン",
+                    "2027-02-07": "別府大分毎日マラソン大会 / 香川丸亀国際ハーフマラソン",
+                    "2027-02-21": "青梅マラソン / 京都マラソン",
+                    "2027-02-28": "大阪マラソン",
+                    "2027-03-07": "東京マラソン",
+                    "2027-03-14": "名古屋ウィメンズマラソン"
+                },
+                raceIcon: '🏃',
+                otherRaceIcon: '🏅'
+            }
+        };
+
+        var currentLang = 'zh';
+
+        function setLang(lang) {
+            currentLang = lang;
+            var t = I18N[lang];
+
+            // 更新所有带 data-i18n 的元素
+            document.querySelectorAll('[data-i18n]').forEach(function(el) {
+                var key = el.getAttribute('data-i18n');
+                if (t[key]) {
+                    el.textContent = t[key];
+                }
+            });
+
+            // 更新语言按钮状态
+            document.getElementById('btnZh').classList.toggle('active', lang === 'zh');
+            document.getElementById('btnJa').classList.toggle('active', lang === 'ja');
+
+            // 更新日历
+            renderCalendar();
+
+            // 更新页面标题
+            document.title = t.siteTitle;
+        }
+
+        document.getElementById('btnZh').addEventListener('click', function() { setLang('zh'); });
+        document.getElementById('btnJa').addEventListener('click', function() { setLang('ja'); });
+
+        // ==================== 日历逻辑 ====================
+        var calendarGrid = document.getElementById('calendarGrid');
+        var calendarTitle = document.getElementById('calendarTitle');
+        var prevBtn = document.getElementById('prevMonth');
+        var nextBtn = document.getElementById('nextMonth');
+
+        var MIN_YEAR = 2026, MIN_MONTH = 6;
+        var MAX_YEAR = 2027, MAX_MONTH = 3;
+
+        var currentYear = new Date().getFullYear();
+        var currentMonth = new Date().getMonth() + 1;
+
+        function clampMonth(y, m) {
+            if (y < MIN_YEAR || (y === MIN_YEAR && m < MIN_MONTH)) {
+                return { year: MIN_YEAR, month: MIN_MONTH };
+            }
+            if (y > MAX_YEAR || (y === MAX_YEAR && m > MAX_MONTH)) {
+                return { year: MAX_YEAR, month: MAX_MONTH };
+            }
+            return { year: y, month: m };
+        }
+
+        var clamped = clampMonth(currentYear, currentMonth);
+        currentYear = clamped.year;
+        currentMonth = clamped.month;
+
+        var today = new Date();
+        var todayYear = today.getFullYear();
+        var todayMonth = today.getMonth() + 1;
+        var todayDate = today.getDate();
+        var todayKey = todayYear + '-' + String(todayMonth).padStart(2, '0') + '-' + String(todayDate).padStart(2, '0');
+
+        function renderCalendar() {
+            var t = I18N[currentLang];
+            var raceData = t.raceNames;
+            var otherData = t.otherRaceNames;
+
+            // 清空并重新添加表头
+            calendarGrid.innerHTML = '';
+            var dayNames = t.dayNames;
+            for (var i = 0; i < 7; i++) {
+                var headerCell = document.createElement('div');
+                headerCell.className = 'calendar-day-header' + (i === 0 || i === 6 ? ' weekend' : '');
+                headerCell.textContent = dayNames[i];
+                calendarGrid.appendChild(headerCell);
+            }
+
+            // 更新标题
+            calendarTitle.textContent = t.monthFormat.replace('{year}', currentYear).replace('{month}', currentMonth);
+
+            // 当月第一天和最后一天
+            var firstDay = new Date(currentYear, currentMonth - 1, 1);
+            var lastDay = new Date(currentYear, currentMonth, 0);
+            var startDayOfWeek = firstDay.getDay();
+            var daysInMonth = lastDay.getDate();
+
+            // 填充空白格
+            for (var i = 0; i < startDayOfWeek; i++) {
+                var emptyCell = document.createElement('div');
+                emptyCell.className = 'calendar-cell empty';
+                calendarGrid.appendChild(emptyCell);
+            }
+
+            // 填充日期格
+            for (var d = 1; d <= daysInMonth; d++) {
+                var cell = document.createElement('div');
+                cell.className = 'calendar-cell';
+                cell.textContent = d;
+
+                var dateKey = currentYear + '-' + String(currentMonth).padStart(2, '0') + '-' + String(d).padStart(2, '0');
+
+                if (dateKey === todayKey) {
+                    cell.classList.add('today');
+                }
+
+                if (raceData.hasOwnProperty(dateKey)) {
+                    cell.classList.add('race-day');
+                    var tooltip = document.createElement('span');
+                    tooltip.className = 'race-tooltip';
+                    tooltip.textContent = t.raceIcon + ' ' + raceData[dateKey];
+                    cell.appendChild(tooltip);
+                    cell.addEventListener('click', function(e) {
+                        var tt = this.querySelector('.race-tooltip');
+                        if (tt) {
+                            if (tt.style.display === 'block') {
+                                tt.style.display = 'none';
+                            } else {
+                                tt.style.display = 'block';
+                                setTimeout(function() { tt.style.display = 'none'; }, 2000);
+                            }
+                        }
+                    });
+                }
+
+                if (otherData.hasOwnProperty(dateKey)) {
+                    cell.classList.add('other-race-day');
+                    var otherTooltip = document.createElement('span');
+                    otherTooltip.className = 'race-tooltip';
+                    otherTooltip.textContent = t.otherRaceIcon + ' ' + otherData[dateKey];
+                    cell.appendChild(otherTooltip);
+                    cell.addEventListener('click', function(e) {
+                        var tt = this.querySelector('.race-tooltip');
+                        if (tt) {
+                            if (tt.style.display === 'block') {
+                                tt.style.display = 'none';
+                            } else {
+                                tt.style.display = 'block';
+                                setTimeout(function() { tt.style.display = 'none'; }, 2000);
+                            }
+                        }
+                    });
+                }
+
+                calendarGrid.appendChild(cell);
+            }
+
+            // 更新按钮状态和标题
+            var atMin = (currentYear === MIN_YEAR && currentMonth === MIN_MONTH);
+            var atMax = (currentYear === MAX_YEAR && currentMonth === MAX_MONTH);
+            prevBtn.disabled = atMin;
+            nextBtn.disabled = atMax;
+            prevBtn.title = t.prevTitle;
+            nextBtn.title = t.nextTitle;
+        }
+
+        prevBtn.addEventListener('click', function() {
+            currentMonth--;
+            if (currentMonth < 1) {
+                currentMonth = 12;
+                currentYear--;
+            }
+            var clamped = clampMonth(currentYear, currentMonth);
+            currentYear = clamped.year;
+            currentMonth = clamped.month;
+            renderCalendar();
+        });
+
+        nextBtn.addEventListener('click', function() {
+            currentMonth++;
+            if (currentMonth > 12) {
+                currentMonth = 1;
+                currentYear++;
+            }
+            var clamped = clampMonth(currentYear, currentMonth);
+            currentYear = clamped.year;
+            currentMonth = clamped.month;
+            renderCalendar();
+        });
+
+        renderCalendar();
+    </script>
+</body>
+</html>

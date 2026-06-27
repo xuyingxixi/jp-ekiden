@@ -114,6 +114,131 @@
             margin: 0 auto;
         }
 
+        /* ==================== 主导航栏 ==================== */
+        .main-nav {
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: center;
+            gap: 0;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .nav-tab {
+            flex: 1;
+            padding: 12px 8px;
+            border-radius: 0;
+            border: 1px solid rgba(255,255,255,0.4);
+            border-right: none;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            color: white;
+            font-size: 16px;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+            text-align: center;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .nav-tab:first-child {
+            border-radius: 8px 0 0 8px;
+        }
+
+        .nav-tab:last-child {
+            border-radius: 0 8px 8px 0;
+            border-right: 1px solid rgba(255,255,255,0.4);
+        }
+
+        .nav-tab:hover {
+            background: rgba(255,255,255,0.35);
+        }
+
+        .nav-tab.active {
+            background: rgba(229, 30, 33, 0.85);
+            border-color: #e51e21;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* ==================== 子导航栏（标签页内） ==================== */
+        .sub-nav {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+            background: transparent;
+            border: none;
+        }
+
+        .sub-nav-tab {
+            flex: 0 1 auto;
+            padding: 8px 22px;
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,0.45);
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            color: white;
+            font-size: 14px;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+            text-align: center;
+            -webkit-tap-highlight-color: transparent;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            max-width: 100%;
+        }
+
+        .sub-nav-tab:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-1px);
+        }
+
+        .sub-nav-tab.active {
+            background: white;
+            border-color: white;
+            color: #e51e21;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(229, 30, 33, 0.25);
+        }
+
+        .sub-tab-page {
+            display: none;
+        }
+
+        .sub-tab-page.active {
+            display: block;
+        }
+
+        /* 标签页内容容器 */
+        .tab-page {
+            display: none;
+        }
+
+        .tab-page.active {
+            display: block;
+        }
+
+        /* 空页面占位 */
+        .tab-empty {
+            background: rgba(255,255,255,0.5);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            border-radius: 12px;
+            padding: 40px 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.4);
+            text-align: center;
+            color: #888;
+            font-size: 15px;
+        }
+
         /* 分类区块 */
         .category {
             background: rgba(255,255,255,0.5);
@@ -189,6 +314,73 @@
         .site-link:hover {
             background: #e51e21;
             color: white;
+        }
+
+        /* ==================== 紧凑列表样式（大学/实业团链接） ==================== */
+        .compact-list {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1px;
+            border: 1px solid rgba(0,0,0,0.08);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .compact-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: rgba(255,255,255,0.4);
+            padding: 10px 8px;
+            font-size: 14px;
+            color: #333;
+            text-decoration: none;
+            transition: all 0.2s;
+            min-height: 42px;
+            word-break: keep-all;
+        }
+
+        .compact-item:hover {
+            background: rgba(229, 30, 33, 0.15);
+            color: #e51e21;
+            font-weight: bold;
+        }
+
+        .compact-placeholder,
+        .compact-placeholder:hover {
+            background: rgba(255,255,255,0.4);
+            color: #333;
+            font-weight: normal;
+            cursor: default;
+        }
+
+        .compact-item .compact-arrow {
+            display: none;
+        }
+
+        /* 平板：4列 */
+        @media (max-width: 900px) {
+            .compact-list {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            .compact-item {
+                padding: 9px 6px;
+                font-size: 13px;
+                min-height: 38px;
+            }
+        }
+
+        /* 手机：3列 */
+        @media (max-width: 600px) {
+            .compact-list {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .compact-item {
+                padding: 8px 4px;
+                font-size: 12px;
+                min-height: 36px;
+            }
         }
 
         /* ==================== 日历模块 ==================== */
@@ -284,15 +476,14 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-
             justify-content: center;
-            border-radius: 6px;
             cursor: default;
             transition: all 0.2s;
             position: relative;
             font-size: 13px;
             color: #333;
             min-height: 36px;
+            overflow: visible;
         }
 
         .calendar-cell.empty {
@@ -366,18 +557,33 @@
         .race-tooltip {
             display: none;
             position: absolute;
-            bottom: calc(100% + 6px);
-            left: 50%;
-            transform: translateX(-50%);
             background: #333;
             color: #fff;
             padding: 6px 12px;
             border-radius: 6px;
             font-size: 12px;
-            white-space: nowrap;
+            line-height: 1.5;
+            white-space: normal;
+            word-break: keep-all;
+            overflow-wrap: break-word;
             z-index: 10;
             pointer-events: none;
             font-weight: normal;
+            width: fit-content;
+            max-width: 220px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .calendar-cell .race-tooltip {
+            position: absolute;
+            bottom: calc(100% + 6px);
+            left: 50%;
+            transform: translateX(-50%);
+            right: auto;
+            top: auto;
+            width: fit-content;
+            max-width: 220px;
         }
 
         .race-tooltip::after {
@@ -437,6 +643,87 @@
             border: 2px solid #1976d2;
         }
 
+        /* ==================== 近期比赛日程 ==================== */
+        .upcoming-races {
+            background: rgba(255,255,255,0.5);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            border-radius: 12px;
+            padding: 18px 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.4);
+        }
+
+        .upcoming-races-title {
+            font-size: 18px;
+            color: #333;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        .upcoming-races-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .upcoming-race-item {
+            display: flex;
+            align-items: baseline;
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-bottom: 4px;
+            background: rgba(255,255,255,0.3);
+            font-size: 14px;
+            color: #333;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .upcoming-race-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .upcoming-race-category {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: bold;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .upcoming-race-category.ekiden {
+            background: rgba(229, 30, 33, 0.12);
+            color: #e51e21;
+        }
+
+        .upcoming-race-category.other {
+            background: rgba(25, 118, 210, 0.12);
+            color: #1565c0;
+        }
+
+        .upcoming-race-date {
+            white-space: nowrap;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .upcoming-race-name {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .upcoming-races-empty {
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+            padding: 8px 0;
+        }
+
         /* ==================== 触屏优化（全局） ==================== */
         .calendar-nav,
         .calendar-cell,
@@ -485,6 +772,12 @@
             .site-link:hover {
                 background: rgba(229, 30, 33, 0.1);
                 color: #e51e21;
+            }
+
+            .compact-item {
+                padding: 8px 4px;
+                font-size: 12px;
+                min-height: 36px;
             }
 
             .site-link:active {
@@ -537,6 +830,35 @@
 
             .header {
                 margin-bottom: 20px;
+            }
+
+            .main-nav {
+                gap: 0;
+                margin-bottom: 12px;
+            }
+
+            .nav-tab {
+                padding: 10px 4px;
+                font-size: 12px;
+            }
+
+            .tab-empty {
+                padding: 30px 16px;
+                font-size: 13px;
+            }
+
+            .sub-nav {
+                gap: 8px;
+                flex-wrap: wrap;
+            }
+
+            .sub-nav-tab {
+                padding: 7px 16px;
+                font-size: 13px;
+                white-space: normal;
+                line-height: 1.3;
+                max-width: 100%;
+                text-align: center;
             }
 
             .category {
@@ -612,8 +934,11 @@
             .race-tooltip {
                 font-size: 10px;
                 padding: 3px 8px;
-                white-space: nowrap;
-                text-align: center;
+                white-space: normal;
+                word-break: keep-all;
+                overflow-wrap: break-word;
+                width: fit-content;
+                max-width: 180px;
             }
 
             .calendar-legend {
@@ -621,6 +946,31 @@
                 margin-top: 6px;
                 font-size: 11px;
                 flex-wrap: wrap;
+            }
+
+            .upcoming-races {
+                padding: 12px 14px;
+                margin-bottom: 15px;
+            }
+
+            .upcoming-races-title {
+                font-size: 15px;
+                margin-bottom: 10px;
+            }
+
+            .upcoming-race-item {
+                font-size: 12px;
+                padding: 6px 10px;
+                gap: 6px;
+            }
+
+            .upcoming-race-category {
+                font-size: 11px;
+                padding: 1px 6px;
+            }
+
+            .upcoming-races-empty {
+                font-size: 12px;
             }
 
             .footer {
@@ -638,6 +988,139 @@
 
         .contact-link:hover {
             opacity: 0.7;
+        }
+
+        /* 底部 */
+        /* ==================== 小屏手机适配（< 480px） ==================== */
+        @media (max-width: 480px) {
+            body {
+                padding: 15px 8px;
+            }
+
+            .header h1 {
+                font-size: 20px;
+            }
+
+            .header .subtitle {
+                font-size: 12px;
+                line-height: 1.5;
+            }
+
+            .header {
+                margin-bottom: 15px;
+            }
+
+            .lang-switch-wrap {
+                margin-bottom: 12px;
+            }
+
+            /* 主导航：换行为2行×3列，防止文字溢出 */
+            .main-nav {
+                flex-wrap: wrap;
+                gap: 0;
+                margin-bottom: 10px;
+                border-radius: 6px;
+                overflow: hidden;
+            }
+
+            .nav-tab {
+                flex: 0 0 calc(100% / 3);
+                padding: 9px 4px;
+                font-size: 11px;
+                min-width: 0;
+                border-radius: 0 !important;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            /* 第1行左上角 */
+            .nav-tab:first-child { border-radius: 6px 0 0 0 !important; }
+            /* 第1行右上角 */
+            .nav-tab:nth-child(3) { border-radius: 0 6px 0 0 !important; }
+            /* 第2行左下角 */
+            .nav-tab:nth-child(4) { border-radius: 0 0 0 6px !important; }
+            /* 第2行右下角 */
+            .nav-tab:last-child { border-radius: 0 0 6px 0 !important; }
+
+            /* 第1行底部加边框分隔 */
+            .nav-tab:nth-child(3),
+            .nav-tab:nth-child(n+4):nth-child(-n+5) {
+                border-bottom: 1px solid rgba(255,255,255,0.4);
+            }
+
+            .sub-nav {
+                gap: 6px;
+                flex-wrap: wrap;
+            }
+
+            .sub-nav-tab {
+                padding: 6px 12px;
+                font-size: 12px;
+                white-space: normal;
+                line-height: 1.3;
+                max-width: calc(50% - 3px);
+                text-align: center;
+            }
+
+            .category {
+                padding: 12px;
+                margin-bottom: 12px;
+            }
+
+            .category-title {
+                font-size: 15px;
+                padding-bottom: 6px;
+                margin-bottom: 10px;
+            }
+
+            .calendar-module {
+                padding: 10px 10px;
+                margin-bottom: 12px;
+            }
+
+            .calendar-cell {
+                font-size: 11px;
+                padding: 4px 0;
+                min-height: 30px;
+            }
+
+            .calendar-day-header {
+                font-size: 10px;
+                padding: 2px 0;
+            }
+
+            .upcoming-races {
+                padding: 10px 10px;
+                margin-bottom: 12px;
+            }
+
+            .upcoming-race-item {
+                font-size: 11px;
+                padding: 5px 8px;
+            }
+        }
+
+        /* ==================== 极小屏适配（< 370px） ==================== */
+        @media (max-width: 370px) {
+            .nav-tab {
+                font-size: 10px;
+                padding: 8px 2px;
+            }
+
+            .sub-nav-tab {
+                font-size: 11px;
+                padding: 6px 10px;
+            }
+
+            .header h1 {
+                font-size: 18px;
+            }
+
+            .compact-item {
+                padding: 7px 3px;
+                font-size: 11px;
+            }
         }
 
         /* 底部 */
@@ -664,151 +1147,385 @@
         <div class="header">
             <h1 data-i18n="siteTitle">日本驿传观赛导航</h1>
             <p class="subtitle">
-                <span data-i18n="siteDesc1">本网站收录日本各驿传比赛、陆上竞技联盟、陆上竞技媒体官方网站，方便对日本驿传比赛感兴趣的朋友们查阅资料。</span><br>
+                <span data-i18n="siteDesc1">本网站定期更新日本驿传比赛信息，并收录驿传比赛、陆上竞技团体、大学及实业团陆上竞技部、选手主页、陆上竞技媒体等官方网站，方便对日本驿传比赛感兴趣的朋友们查阅资料。</span><br>
                 <span data-i18n="siteDesc2">网站在不断完善中，如有意见或建议请联系</span><a class="contact-link" href="https://xhslink.com/m/3iTY27O5kzz" target="_blank">@温暖小葵</a>
             </p>
         </div>
 
-        <!-- ==================== 日历模块 ==================== -->
-        <div class="calendar-module">
-            <div class="calendar-main-title">📅 <span data-i18n="calendarMainTitle">日本驿传比赛日历</span></div>
-            <div class="calendar-header">
-                <button class="calendar-nav" id="prevMonth" title="上一个月">◀</button>
-                <span class="calendar-title" id="calendarTitle">2026年6月</span>
-                <button class="calendar-nav" id="nextMonth" title="下一个月">▶</button>
-            </div>
-            <div class="calendar-grid" id="calendarGrid">
-                <div class="calendar-day-header weekend">日</div>
-                <div class="calendar-day-header">一</div>
-                <div class="calendar-day-header">二</div>
-                <div class="calendar-day-header">三</div>
-                <div class="calendar-day-header">四</div>
-                <div class="calendar-day-header">五</div>
-                <div class="calendar-day-header weekend">六</div>
-            </div>
-            <div class="calendar-legend">
-                <span><span class="legend-dot today"></span> <span data-i18n="legendToday">今日</span></span>
-                <span><span class="legend-dot race"></span> <span data-i18n="legendRace">驿传比赛日</span></span>
-                <span><span class="legend-dot other-race"></span> <span data-i18n="legendOther">其他比赛日</span></span>
-            </div>
+        <!-- ==================== 主导航栏 ==================== -->
+        <div class="main-nav" id="mainNav">
+            <button class="nav-tab active" data-tab="race-info" data-i18n="navRaceInfo">比赛信息</button>
+            <button class="nav-tab" data-tab="orgs" data-i18n="navOrgs">陆上竞技团体</button>
+            <button class="nav-tab" data-tab="college-club" data-i18n="navCollegeClub">大学陆上竞技部</button>
+            <button class="nav-tab" data-tab="business-club" data-i18n="navBusinessClub">实业团陆上竞技部</button>
+            <button class="nav-tab" data-tab="athletes" data-i18n="navAthletes">选手主页</button>
+            <button class="nav-tab" data-tab="media" data-i18n="navMedia">陆上竞技媒体</button>
         </div>
 
-        <!-- ==================== 大学生驿传比赛官方网站 ==================== -->
-        <div class="category">
-            <h2 class="category-title" data-i18n="catCollegeTitle">🏫 大学生驿传比赛官方网站</h2>
-            <div class="site-list">
-                <div class="site-card">
-                    <div class="site-name">箱根驿传</div>
-                    <div class="site-desc" data-i18n="descHakone">日本三大学生驿传之一，每年1月2日、3日在东京-箱根举办，全程217.1公里</div>
-                    <a class="site-link" href="https://www.hakone-ekiden.jp/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+        <!-- ==================== 标签页：比赛信息 ==================== -->
+        <div class="tab-page active" id="tab-race-info">
+
+            <!-- 日历模块 -->
+            <div class="calendar-module">
+                <div class="calendar-main-title">📅 <span data-i18n="calendarMainTitle">日本驿传比赛日历</span></div>
+                <div class="calendar-header">
+                    <button class="calendar-nav" id="prevMonth" title="上一个月">◀</button>
+                    <span class="calendar-title" id="calendarTitle">2026年6月</span>
+                    <button class="calendar-nav" id="nextMonth" title="下一个月">▶</button>
                 </div>
-                <div class="site-card">
-                    <div class="site-name">全日本大学驿传</div>
-                    <div class="site-desc" data-i18n="descDaigaku">日本三大学生驿传之一，每年11月在名古屋举办，全程106.8公里</div>
-                    <a class="site-link" href="https://daigaku-ekiden.com/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                <div class="calendar-grid" id="calendarGrid">
+                    <div class="calendar-day-header weekend">日</div>
+                    <div class="calendar-day-header">一</div>
+                    <div class="calendar-day-header">二</div>
+                    <div class="calendar-day-header">三</div>
+                    <div class="calendar-day-header">四</div>
+                    <div class="calendar-day-header">五</div>
+                    <div class="calendar-day-header weekend">六</div>
                 </div>
-                <div class="site-card">
-                    <div class="site-name">出云驿传</div>
-                    <div class="site-desc" data-i18n="descIzumo">日本三大学生驿传之一，每年10月在出云举办，全程45.1公里</div>
-                    <a class="site-link" href="https://www.izumo-ekiden.jp/" target="_blank" data-i18n="visitSite">访问网站 →</a>
-                </div>
-                <div class="site-card">
-                    <div class="site-name">全日本大学女子驿传</div>
-                    <div class="site-desc" data-i18n="descDaigakuWomen">每年10月在仙台举办，全程38公里</div>
-                    <a class="site-link" href="https://www.morino-miyako.com/" target="_blank" data-i18n="visitSite">访问网站 →</a>
-                </div>
-                <div class="site-card">
-                    <div class="site-name">富士山女子驿传</div>
-                    <div class="site-desc" data-i18n="descFujisan">每年12月30日在富士举办，全程43.4公里</div>
-                    <a class="site-link" href="https://www.fujisan-joshiekiden.jp/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                <div class="calendar-legend">
+                    <span><span class="legend-dot today"></span> <span data-i18n="legendToday">今日</span></span>
+                    <span><span class="legend-dot race"></span> <span data-i18n="legendRace">驿传比赛日</span></span>
+                    <span><span class="legend-dot other-race"></span> <span data-i18n="legendOther">其他比赛日</span></span>
                 </div>
             </div>
-        </div>
 
-        <!-- ==================== 实业团驿传比赛官方网站 ==================== -->
-        <div class="category">
-            <h2 class="category-title" data-i18n="catBusinessTitle">🏢 实业团驿传比赛官方网站</h2>
-            <div class="site-list">
-                <div class="site-card">
-                    <div class="site-name">全日本实业团驿传（新年驿传）</div>
-                    <div class="site-desc" data-i18n="descNewYear">日本水平最高的驿传比赛，每年1月1日在群马举办，全程100公里</div>
-                    <a class="site-link" href="https://www.tbs.co.jp/newyearekiden/" target="_blank" data-i18n="visitSite">访问网站 →</a>
-                </div>
-                <div class="site-card">
-                    <div class="site-name">全日本实业团女子驿传（皇后驿传）</div>
-                    <div class="site-desc" data-i18n="descQueen">日本水平最高的女子驿传比赛，每年11月在仙台举办，全程42.195公里</div>
-                    <a class="site-link" href="https://www.tbs.co.jp/ekiden/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+            <!-- 近期比赛日程 -->
+            <div class="upcoming-races" id="upcomingRaces">
+                <div class="upcoming-races-title" data-i18n="upcomingRacesTitle">📋 近期比赛日程</div>
+                <ul class="upcoming-races-list" id="upcomingRacesList"></ul>
+            </div>
+
+            <!-- 大学生驿传比赛官方网站 -->
+            <div class="category">
+                <h2 class="category-title" data-i18n="catCollegeTitle">🏫 大学生驿传比赛官方网站</h2>
+                <div class="site-list">
+                    <div class="site-card">
+                        <div class="site-name">箱根驿传</div>
+                        <div class="site-desc" data-i18n="descHakone">日本三大学生驿传之一，每年1月2日、3日在东京-箱根举办，全程217.1公里</div>
+                        <a class="site-link" href="https://www.hakone-ekiden.jp/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                    </div>
+                    <div class="site-card">
+                        <div class="site-name">全日本大学驿传</div>
+                        <div class="site-desc" data-i18n="descDaigaku">日本三大学生驿传之一，每年11月在名古屋举办，全程106.8公里</div>
+                        <a class="site-link" href="https://daigaku-ekiden.com/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                    </div>
+                    <div class="site-card">
+                        <div class="site-name">出云驿传</div>
+                        <div class="site-desc" data-i18n="descIzumo">日本三大学生驿传之一，每年10月在出云举办，全程45.1公里</div>
+                        <a class="site-link" href="https://www.izumo-ekiden.jp/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                    </div>
+                    <div class="site-card">
+                        <div class="site-name">全日本大学女子驿传</div>
+                        <div class="site-desc" data-i18n="descDaigakuWomen">每年10月在仙台举办，全程38公里</div>
+                        <a class="site-link" href="https://www.morino-miyako.com/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                    </div>
+                    <div class="site-card">
+                        <div class="site-name">富士山女子驿传</div>
+                        <div class="site-desc" data-i18n="descFujisan">每年12月30日在富士举办，全程43.4公里</div>
+                        <a class="site-link" href="https://www.fujisan-joshiekiden.jp/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- ==================== 全国都道府县驿传比赛官方网站 ==================== -->
-        <div class="category">
-            <h2 class="category-title" data-i18n="catPrefTitle">🗾 全国都道府县驿传比赛官方网站</h2>
-            <div class="site-list">
-                <div class="site-card">
-                    <div class="site-name">全国都道府县男子驿传</div>
-                    <div class="site-desc" data-i18n="descPrefMen">实业团、大学生、中学生混合比赛，每年1月在京都举办，全程48.9公里</div>
-                    <a class="site-link" href="https://www.hiroshima-ekiden.com/" target="_blank" data-i18n="visitSite">访问网站 →</a>
-                </div>
-                <div class="site-card">
-                    <div class="site-name">全国都道府县女子驿传</div>
-                    <div class="site-desc" data-i18n="descPrefWomen">实业团、大学生、中学生混合比赛，每年1月在京都举办，全程42.195公里</div>
-                    <a class="site-link" href="https://www.womens-ekiden.jp/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+            <!-- 实业团驿传比赛官方网站 -->
+            <div class="category">
+                <h2 class="category-title" data-i18n="catBusinessTitle">🏢 实业团驿传比赛官方网站</h2>
+                <div class="site-list">
+                    <div class="site-card">
+                        <div class="site-name">全日本实业团驿传（新年驿传）</div>
+                        <div class="site-desc" data-i18n="descNewYear">日本水平最高的驿传比赛，每年1月1日在群马举办，全程100公里</div>
+                        <a class="site-link" href="https://www.tbs.co.jp/newyearekiden/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                    </div>
+                    <div class="site-card">
+                        <div class="site-name">全日本实业团女子驿传（皇后驿传）</div>
+                        <div class="site-desc" data-i18n="descQueen">日本水平最高的女子驿传比赛，每年11月在仙台举办，全程42.195公里</div>
+                        <a class="site-link" href="https://www.tbs.co.jp/ekiden/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- ==================== 日本陆上竞技团体网站 ==================== -->
-        <div class="category">
-            <h2 class="category-title" data-i18n="catOrgTitle">🏅 日本陆上竞技团体网站</h2>
-            <div class="site-list">
-                <div class="site-card">
-                    <div class="site-name">日本陆上竞技联盟</div>
-                    <div class="site-desc" data-i18n="descJAAF">可查询日本队过往战绩、MGC、日本纪录等</div>
-                    <a class="site-link" href="https://www.jaaf.or.jp/" target="_blank" data-i18n="visitSite">访问网站 →</a>
-                </div>
-                <div class="site-card">
-                    <div class="site-name">日本实业团陆上竞技联合</div>
-                    <div class="site-desc" data-i18n="descJITA">可查询日本实业团比赛信息</div>
-                    <a class="site-link" href="http://www.jita-trackfield.jp/" target="_blank" data-i18n="visitSite">访问网站 →</a>
-                </div>
-                <div class="site-card">
-                    <div class="site-name">东日本实业团陆上竞技联盟</div>
-                    <div class="site-desc" data-i18n="descHNJ">可查询东日本实业团比赛信息</div>
-                    <a class="site-link" href="http://hnj.jita-trackfield.jp/" target="_blank" data-i18n="visitSite">访问网站 →</a>
-                </div>
-                <div class="site-card">
-                    <div class="site-name">日本学生陆上竞技联合</div>
-                    <div class="site-desc" data-i18n="descIUAU">可查询日本学生比赛信息、纪录等</div>
-                    <a class="site-link" href="https://www.iuau.jp/" target="_blank" data-i18n="visitSite">访问网站 →</a>
-                </div>
-                <div class="site-card">
-                    <div class="site-name">关东学生陆上竞技联盟</div>
-                    <div class="site-desc" data-i18n="descKGRR">可查询关东学生比赛信息、纪录等</div>
-                    <a class="site-link" href="https://www.kgrr.org/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+            <!-- 全国都道府县驿传比赛官方网站 -->
+            <div class="category">
+                <h2 class="category-title" data-i18n="catPrefTitle">🗾 其他驿传比赛官方网站</h2>
+                <div class="site-list">
+                    <div class="site-card">
+                        <div class="site-name">全国都道府县男子驿传</div>
+                        <div class="site-desc" data-i18n="descPrefMen">实业团、大学生、中学生混合比赛，每年1月在京都举办，全程48.9公里</div>
+                        <a class="site-link" href="https://www.hiroshima-ekiden.com/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                    </div>
+                    <div class="site-card">
+                        <div class="site-name">全国都道府县女子驿传</div>
+                        <div class="site-desc" data-i18n="descPrefWomen">实业团、大学生、中学生混合比赛，每年1月在京都举办，全程42.195公里</div>
+                        <a class="site-link" href="https://www.womens-ekiden.jp/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                    </div>
+                    <div class="site-card">
+                        <div class="site-name">男鹿驿传</div>
+                        <div class="site-desc" data-i18n="descOgaEkiden">设有一般团体、大学、高中男子、高中女子组别的比赛，每年6月在秋田县男鹿市举办，一般/大学组64.8公里，高中男子组37.1公里，高中女子组19.8公里</div>
+                        <a class="site-link" href="https://oganavi.com/ekiden/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- ==================== 日本陆上竞技媒体网站 ==================== -->
-        <div class="category">
-            <h2 class="category-title" data-i18n="catMediaTitle">📰 日本陆上竞技媒体网站</h2>
-            <div class="site-list">
-                <div class="site-card">
-                    <div class="site-name">月刊陆上竞技</div>
-                    <div class="site-desc" data-i18n="descGekkan">日本田径权威杂志，有驿传专刊</div>
-                    <a class="site-link" href="https://www.rikujyokyogi.co.jp/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+        <!-- ==================== 标签页：陆上竞技团体 ==================== -->
+        <div class="tab-page" id="tab-orgs">
+            <div class="category">
+                <h2 class="category-title" data-i18n="catOrgTitle">🏅 日本陆上竞技团体网站</h2>
+                <div class="site-list">
+                    <div class="site-card">
+                        <div class="site-name">日本陆上竞技联盟</div>
+                        <div class="site-desc" data-i18n="descJAAF">可查询日本队过往战绩、MGC、日本纪录等</div>
+                        <a class="site-link" href="https://www.jaaf.or.jp/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                    </div>
+                    <div class="site-card">
+                        <div class="site-name">日本实业团陆上竞技联合</div>
+                        <div class="site-desc" data-i18n="descJITA">可查询日本实业团比赛信息</div>
+                        <a class="site-link" href="http://www.jita-trackfield.jp/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                    </div>
+                    <div class="site-card">
+                        <div class="site-name">东日本实业团陆上竞技联盟</div>
+                        <div class="site-desc" data-i18n="descHNJ">可查询东日本实业团比赛信息</div>
+                        <a class="site-link" href="http://hnj.jita-trackfield.jp/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                    </div>
+                    <div class="site-card">
+                        <div class="site-name">日本学生陆上竞技联合</div>
+                        <div class="site-desc" data-i18n="descIUAU">可查询日本学生比赛信息、纪录等</div>
+                        <a class="site-link" href="https://www.iuau.jp/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                    </div>
+                    <div class="site-card">
+                        <div class="site-name">关东学生陆上竞技联盟</div>
+                        <div class="site-desc" data-i18n="descKGRR">可查询关东学生比赛信息、纪录等</div>
+                        <a class="site-link" href="https://www.kgrr.org/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                    </div>
                 </div>
-                <div class="site-card">
-                    <div class="site-name">Sportiva集英社</div>
-                    <div class="site-desc" data-i18n="descSportiva">日本综合体育期刊，有深度纪实和选手专访</div>
-                    <a class="site-link" href="https://sportiva.shueisha.co.jp/clm/othersports/rikujo/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+            </div>
+        </div>
+
+        <!-- ==================== 标签页：大学陆上竞技部 ==================== -->
+        <div class="tab-page" id="tab-college-club">
+            <!-- 子导航栏 -->
+            <div class="sub-nav" id="collegeSubNav">
+                <button class="sub-nav-tab active" data-subtab="college-men" data-i18n="subCollegeMen">大学男子陆上竞技部（驿传队）网站</button>
+                <button class="sub-nav-tab" data-subtab="college-women" data-i18n="subCollegeWomen">大学女子陆上竞技部（驿传队）网站</button>
+            </div>
+
+            <!-- 子页面：男子 -->
+            <div class="sub-tab-page active" id="subtab-college-men">
+                <div class="category">
+                    <h2 class="category-title" data-i18n="catCollegeMenTitle">🏫 大学男子陆上竞技部（驿传队）网站</h2>
+                    <div class="compact-list">
+                        <a class="compact-item" href="https://aogaku-tf.com/index.php" target="_blank" data-name-ja="青山学院大学">青山学院大学</a>
+                        <a class="compact-item" href="https://www.kokugakuin.com/" target="_blank" data-name-ja="國學院大學">国学院大学</a>
+                        <a class="compact-item" href="https://juntendo-longdistance.com/" target="_blank" data-name-ja="順天堂大学">顺天堂大学</a>
+                        <a class="compact-item" href="https://waseda-ac.jp/" target="_blank" data-name-ja="早稲田大学">早稻田大学</a>
+                        <a class="compact-item" href="https://chuo-tf.com/" target="_blank" data-name-ja="中央大学">中央大学</a>
+                        <a class="compact-item" href="https://komazawa-ekiden.com/" target="_blank" data-name-ja="駒澤大学">驹泽大学</a>
+                        <a class="compact-item" href="https://www.josai.ac.jp/tjp/club/dansiekiden/" target="_blank" data-name-ja="城西大学">城西大学</a>
+                        <a class="compact-item" href="https://soka-ekiden.com/" target="_blank" data-name-ja="創価大学">创价大学</a>
+                        <a class="compact-item" href="https://www.teikyo-sports.jp/ekiden/" target="_blank" data-name-ja="帝京大学">帝京大学</a>
+                        <a class="compact-item" href="https://nssu-athletic.com/" target="_blank" data-name-ja="日本大学">日本大学</a>
+                        <a class="compact-item" href="https://www.cgu.ac.jp/club/sports/ekiden/" target="_blank" data-name-ja="中央学院大学">中央学院大学</a>
+                        <a class="compact-item" href="https://www.go-tokai-ekiden.com/" target="_blank" data-name-ja="東海大学">东海大学</a>
+                        <a class="compact-item" href="https://ekiden.kanagawa-u.ac.jp/" target="_blank" data-name-ja="神奈川大学">神奈川大学</a>
+                        <a class="compact-item" href="https://sites.google.com/toyo.jp/tetsukon/" target="_blank" data-name-ja="東洋大学">东洋大学</a>
+                        <a class="compact-item" href="https://nssu-ekiden.com/" target="_blank" data-name-ja="日本体育大学">日本体育大学</a>
+                        <a class="compact-item" href="https://www.tiu.ac.jp/sports/ekiden/" target="_blank" data-name-ja="東京国際大学">东京国际大学</a>
+                        <a class="compact-item" href="https://www.ygu.ac.jp/sport/long-ekiden/" target="_blank" data-name-ja="山梨学院大学">山梨学院大学</a>
+                        <a class="compact-item" href="https://nodai-track-field.jp/" target="_blank" data-name-ja="東京農業大学">东京农业大学</a>
+                        <a class="compact-item" href="https://dbu-ekiden.com/" target="_blank" data-name-ja="大東文化大学">大东文化大学</a>
+                        <a class="compact-item" href="https://www.rikkyo-ekiden.jp/" target="_blank" data-name-ja="立教大学">立教大学</a>
+                        <a class="compact-item" href="https://hosei-tf.com/" target="_blank" data-name-ja="法政大学">法政大学</a>
+                        <a class="compact-item" href="https://meiji-kyoso.com/" target="_blank" data-name-ja="明治大学">明治大学</a>
+                        <a class="compact-item" href="https://senshu-ekiden-since1924.com/" target="_blank" data-name-ja="専修大学">专修大学</a>
+                        <a class="compact-item" href="https://www.nichiyaku.ac.jp/trackclub/" target="_blank" data-name-ja="日本薬科大学">日本药科大学</a>
+                        <a class="compact-item" href="https://sports.surugadai.ac.jp/team/ekiden" target="_blank" data-name-ja="駿河台大学">骏河台大学</a>
+                        <a class="compact-item" href="https://tsukubathletics.com/" target="_blank" data-name-ja="筑波大学">筑波大学</a>
+                        <a class="compact-item" href="https://act.takushoku-u.ac.jp/lists/ritaku/sports/athletics/" target="_blank" data-name-ja="拓殖大学">拓殖大学</a>
+                        <a class="compact-item" href="https://www.shibaura-it.ac.jp/campus_life/activity/ekiden/index.html" target="_blank" data-name-ja="芝浦工業大学">芝浦工业大学</a>
+                        <a class="compact-item" href="https://www.kokushikan.ac.jp/sports/club/ekiden-m/" target="_blank" data-name-ja="国士舘大学">国士馆大学</a>
+                        <a class="compact-item" href="https://joburikujo.1web.jp/" target="_blank" data-name-ja="上武大学">上武大学</a>
+                        <a class="compact-item" href="https://kutf-sportclub-official.net/" target="_blank" data-name-ja="関西大学">关西大学</a>
+                        <a class="compact-item" href="https://www.osaka-ue.ac.jp/campus/club/club01/athletics.html" target="_blank" data-name-ja="大阪経済大学">大阪经济大学</a>
+                        <a class="compact-item" href="https://kgac.main.jp/" target="_blank" data-name-ja="関西学院大学">关西学院大学</a>
+                        <a class="compact-item" href="https://www.sgu.ac.jp/campuslife/club/sports/do050b00000005c3.html" target="_blank" data-name-ja="札幌学院大学">札幌学院大学</a>
+                        <a class="compact-item" href="https://www.nutfc.com/" target="_blank" data-name-ja="名古屋大学">名古屋大学</a>
+                        <a class="compact-item" href="https://www.gku-rikujyou.com/" target="_blank" data-name-ja="岐阜協立大学">岐阜协立大学</a>
+                        <a class="compact-item" href="https://www.sgk.ac.jp/campus-life/rikujo.html" target="_blank" data-name-ja="志学館大学">志学馆大学</a>
+                        <a class="compact-item" href="https://www2.hp-ez.com/hp/shindaitf/" target="_blank" data-name-ja="信州大学">信州大学</a>
+                        <a class="compact-item" href="https://www.hue.ac.jp/circle/taiku/rikujo/index.htm" target="_blank" data-name-ja="広島経済大学">广岛经济大学</a>
+                        <a class="compact-item" href="https://www.tgaa.jp/club/42/" target="_blank" data-name-ja="東北学院大学">东北学院大学</a>
+                    </div>
                 </div>
-                <div class="site-card">
-                    <div class="site-name">读卖新闻</div>
-                    <div class="site-desc" data-i18n="descYomiuri">箱根驿传主办方，有箱根驿传专栏</div>
-                    <a class="site-link" href="https://www.yomiuri.co.jp/hakone-ekiden/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+            </div>
+
+            <!-- 子页面：女子 -->
+            <div class="sub-tab-page" id="subtab-college-women">
+                <div class="category">
+                    <h2 class="category-title" data-i18n="catCollegeWomenTitle">🏫 大学女子陆上竞技部（驿传队）网站</h2>
+                    <div class="compact-list">
+                        <a class="compact-item" href="https://www.josai.ac.jp/tjp/club/josiekiden/" target="_blank" data-name-ja="城西大学">城西大学</a>
+                        <a class="compact-item" href="https://www.daito.ac.jp/sports/club/trackfield.html" target="_blank" data-name-ja="大東文化大学">大东文化大学</a>
+                        <a class="compact-item" href="https://www.meijo-u.ac.jp/mag/diamond/" target="_blank" data-name-ja="名城大学">名城大学</a>
+                        <a class="compact-item" href="https://www.tfu.ac.jp/club/athletics_w/s9n3gg0000029k6h.html" target="_blank" data-name-ja="東北福祉大学">东北福祉大学</a>
+                        <a class="compact-item" href="https://www.ritsumei.ac.jp/sports-culture/all/topics/?group=43" target="_blank" data-name-ja="立命館大学">立命馆大学</a>
+                        <a class="compact-item" href="https://www.ogu.ac.jp/club/trackfield/" target="_blank" data-name-ja="大阪学院大学">大阪学院大学</a>
+                        <a class="compact-item" href="https://tsukubathletics.com/" target="_blank" data-name-ja="筑波大学">筑波大学</a>
+                        <a class="compact-item" href="https://fukuokautf.wixsite.com/my-site" target="_blank" data-name-ja="福岡大学">福冈大学</a>
+                        <a class="compact-item" href="https://iiwanet.jp/j_trackfield/" target="_blank" data-name-ja="順天堂大学">顺天堂大学</a>
+                        <a class="compact-item" href="https://www.nittai.ac.jp/ekidenspecial/women.html" target="_blank" data-name-ja="日本体育大学">日本体育大学</a>
+                        <a class="compact-item" href="https://www.tamagawa.jp/education/dream_uni/detail_4176.html" target="_blank" data-name-ja="玉川大学">玉川大学</a>
+                        <a class="compact-item" href="https://teika-sports.com/ekiden/" target="_blank" data-name-ja="帝京科学大学">帝京科学大学</a>
+                        <a class="compact-item" href="https://kutf-sportclub-official.net/custom8.html" target="_blank" data-name-ja="関西大学">关西大学</a>
+                        <a class="compact-item" href="https://act.takushoku-u.ac.jp/lists/ritaku/sports/femaleathletics/" target="_blank" data-name-ja="拓殖大学">拓殖大学</a>
+                        <a class="compact-item" href="https://sports.surugadai.ac.jp/team/ekiden" target="_blank" data-name-ja="駿河台大学">骏河台大学</a>
+                        <a class="compact-item" href="https://chuo-jyoshiriku.com/" target="_blank" data-name-ja="中央大学">中央大学</a>
+                        <a class="compact-item" href="https://sites.google.com/toyo.jp/club/elite-teams/Womens-Long-Distance-Track-and-Field" target="_blank" data-name-ja="東洋大学">东洋大学</a>
+                        <a class="compact-item" href="https://www.kyoto-su.ac.jp/wr-campuslife/club/intro/0058.html" target="_blank" data-name-ja="京都産業大学">京都产业大学</a>
+                        <a class="compact-item" href="https://www.nuhw-athletics.com/" target="_blank" data-name-ja="新潟医療福祉大学">新泻医疗福祉大学</a>
+                        <a class="compact-item" href="https://www.chukyogakuin-u.ac.jp/campus-life/club/trackandfield/" target="_blank" data-name-ja="中京学院大学">中京学院大学</a>
+                        <a class="compact-item" href="https://ipu-japan.ac.jp/athletic/club/track_and_field/" target="_blank" data-name-ja="環太平洋大学">环太平洋大学</a>
+                        <a class="compact-item" href="https://sendaiutf.org/" target="_blank" data-name-ja="仙台大学">仙台大学</a>
+                        <a class="compact-item" href="https://hutaf.jimdofree.com/" target="_blank" data-name-ja="北海道大学">北海道大学</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== 标签页：实业团陆上竞技部 ==================== -->
+        <div class="tab-page" id="tab-business-club">
+            <!-- 子导航栏 -->
+            <div class="sub-nav" id="businessSubNav">
+                <button class="sub-nav-tab active" data-subtab="business-men" data-i18n="subBusinessMen">实业团男子陆上竞技部（驿传队）网站</button>
+                <button class="sub-nav-tab" data-subtab="business-women" data-i18n="subBusinessWomen">实业团女子陆上竞技部（驿传队）网站</button>
+            </div>
+
+            <!-- 子页面：男子 -->
+            <div class="sub-tab-page active" id="subtab-business-men">
+                <div class="category">
+                    <h2 class="category-title" data-i18n="catBusinessMenTitle">🏢 实业团男子陆上竞技部（驿传队）网站</h2>
+                    <div class="compact-list">
+                        <a class="compact-item" href="https://athletes.gmo.jp/" target="_blank" data-name-ja="GMO">GMO</a>
+                        <a class="compact-item" href="https://www.logisteed.com/jp/profile/running/" target="_blank" data-name-ja="LOGISTEED">LOGISTEED</a>
+                        <a class="compact-item" href="https://long-distance.toyotatimes-sports.toyota/" target="_blank" data-name-ja="TOYOTA自動車">TOYOTA汽车</a>
+                        <a class="compact-item" href="https://www.jreast.co.jp/running/" target="_blank" data-name-ja="JR東日本">JR东日本</a>
+                        <a class="compact-item" href="https://sunbelx.com/athletes/" target="_blank" data-name-ja="BeLX">BeLX</a>
+                        <a class="compact-item" href="https://www.energia.co.jp/corp/active/symbolsports/rikujo/index.html" target="_blank" data-name-ja="中国電力">中国电力</a>
+                        <a class="compact-item" href="https://www.krosaki.co.jp/trackfield/" target="_blank" data-name-ja="黒崎播磨">黑崎播磨</a>
+                        <a class="compact-item" href="https://global.honda/jp/sports/track/" target="_blank" data-name-ja="Honda">Honda</a>
+                        <a class="compact-item" href="https://www.asahi-kasei.com/jp/sports-event/track-field" target="_blank" data-name-ja="旭化成">旭化成</a>
+                        <a class="compact-item" href="https://sports.jp.fujitsu.com/trackfield/" target="_blank" data-name-ja="富士通">富士通</a>
+                        <a class="compact-item" href="https://www.mhi.com/jp/company/sports/marathon/" target="_blank" data-name-ja="三菱重工">三菱重工</a>
+                        <a class="compact-item" href="https://sports.yaskawa.co.jp/track-field/" target="_blank" data-name-ja="安川電機">安川电机</a>
+                        <a class="compact-item" href="https://www.subaru.co.jp/sports/athletics/" target="_blank" data-name-ja="SUBARU">SUBARU</a>
+                        <a class="compact-item" href="https://tb-sports.com/long-distance/" target="_blank" data-name-ja="TOYOTA紡織">TOYOTA纺织</a>
+                        <a class="compact-item" href="https://sei.co.jp/trackfield/" target="_blank" data-name-ja="住友電工">住友电工</a>
+                        <a class="compact-item" href="https://www.otsukakj.jp/track/" target="_blank" data-name-ja="大塚製薬">大冢制药</a>
+                        <a class="compact-item" href="https://inf.nishitetsu.jp/nnrac/" target="_blank" data-name-ja="西鉄">西铁</a>
+                        <a class="compact-item" href="https://www.aichi-steel.co.jp/track/" target="_blank" data-name-ja="愛知製鋼">爱知制钢</a>
+                        <a class="compact-item" href="https://www.yakult.co.jp/sports/rikujyo/" target="_blank" data-name-ja="ヤクルト">养乐多</a>
+                        <a class="compact-item" href="https://www.mazda.com/ja/about/sports/athletic/" target="_blank" data-name-ja="マツダ">马自达</a>
+                        <a class="compact-item" href="https://www.presskogyo.co.jp/club/" target="_blank" data-name-ja="PRESS KOGYO">PRESS KOGYO</a>
+                        <a class="compact-item" href="https://www.sg-hldgs.co.jp/trackfield/" target="_blank" data-name-ja="SGホールディングス">SG控股</a>
+                        <a class="compact-item" href="https://www.hiramatsu-hp.or.jp/athlete/track_and_field" target="_blank" data-name-ja="平松医院">平松医院</a>
+                        <a class="compact-item" href="https://www.aisan-ind.co.jp/sports/track/" target="_blank" data-name-ja="愛三工業">爱三工业</a>
+                        <a class="compact-item" href="https://www.osakagas.co.jp/company/efforts/sports_culture/trackfield/" target="_blank" data-name-ja="大阪ガス">大阪燃气</a>
+                        <a class="compact-item" href="https://www.konicaminolta.com/jp-ja/athlete/index.html" target="_blank" data-name-ja="コニカミノルタ">柯尼卡美能达</a>
+                        <a class="compact-item" href="https://www.toyota-kyushu.com/tousousouha/" target="_blank" data-name-ja="トヨタ自動車九州">丰田汽车九州</a>
+                        <a class="compact-item" href="https://www.kraftia.co.jp/marathon/" target="_blank" data-name-ja="KRAFTIA（九電工）">KRAFTIA（九电工）</a>
+                        <a class="compact-item" href="https://www.kao.com/jp/track/" target="_blank" data-name-ja="花王">花王</a>
+                        <a class="compact-item" href="https://www.ndsoft.jp/ndac/" target="_blank" data-name-ja="NDソフト">ND Soft</a>
+                        <a class="compact-item" href="http://www.ntn-track.com/" target="_blank" data-name-ja="NTN">NTN</a>
+                        <a class="compact-item" href="https://www.police.pref.osaka.lg.jp/sogo/katsudo/kidotai/club/6229.html" target="_blank" data-name-ja="大阪府警">大阪府警</a>
+                        <a class="compact-item" href="https://www.chudenko.co.jp/company/athletics/" target="_blank" data-name-ja="中電工">中电工</a>
+                        <a class="compact-item" href="https://www.toenec.co.jp/sports/" target="_blank" data-name-ja="トーエネック">TOENEC</a>
+                        <a class="compact-item" href="https://www.jfe-steel.co.jp/works/west/kyoso/index.html" target="_blank" data-name-ja="JFEスチール">JFE钢铁</a>
+                        <a class="compact-item" href="https://www.sekino-reform.jp/rikujou/" target="_blank" data-name-ja="セキノ興産">SEKINO工业</a>
+                        <a class="compact-item" href="https://www.chkk.co.jp/corporate/sports/athlete/index.html" target="_blank" data-name-ja="CHUHATSU">CHUHATSU</a>
+                        <a class="compact-item" href="https://www.ykk-run.jp/" target="_blank" data-name-ja="YKK">YKK</a>
+                        <a class="compact-item" href="https://www.togami-elec.co.jp/athlete/" target="_blank" data-name-ja="戸上電機">户上电机</a>
+                        <a class="compact-item" href="https://mabp-maverick.jp/" target="_blank" data-name-ja="MABP MAVERICK">MABP MAVERICK</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 子页面：女子 -->
+            <div class="sub-tab-page" id="subtab-business-women">
+                <div class="category">
+                    <h2 class="category-title" data-i18n="catBusinessWomenTitle">🏢 实业团女子陆上竞技部（驿传队）网站</h2>
+                    <div class="compact-list">
+                        <a class="compact-item" href="https://athlete.edion.co.jp/" target="_blank" data-name-ja="エディオン">EDION</a>
+                        <a class="compact-item" href="https://www.japanpost.jp/athlete/" target="_blank" data-name-ja="日本郵政">日本邮政</a>
+                        <a class="compact-item" href="https://www.sekisui.co.jp/company/rikujou/" target="_blank" data-name-ja="積水化学">积水化学</a>
+                        <a class="compact-item" href="https://sports.ms-ad-hd.com/ja/corporate/ms/track.html" target="_blank" data-name-ja="三井住友海上">三井住友海上</a>
+                        <a class="compact-item" href="https://run.shiseido.com/jp/" target="_blank" data-name-ja="資生堂">资生堂</a>
+                        <a class="compact-item" href="https://www.uniqlo.com/jp/ja/contents/athlete/" target="_blank" data-name-ja="ユニクロ">优衣库</a>
+                        <a class="compact-item" href="https://tenmayagr-athlete.jp/" target="_blank" data-name-ja="天満屋">天满屋</a>
+                        <a class="compact-item" href="https://www.shimamura.gr.jp/shimariku/" target="_blank" data-name-ja="しまむら">岛村</a>
+                        <a class="compact-item" href="https://www.daihatsu-trackandfield.jp/" target="_blank" data-name-ja="ダイハツ">DAIHATSU</a>
+                        <a class="compact-item" href="https://running.iwatani.co.jp/" target="_blank" data-name-ja="岩谷産業">岩谷产业（Iwatani）</a>
+                        <a class="compact-item" href="https://shiny-blue.jp/" target="_blank" data-name-ja="豊田自動織機">丰田自动织机</a>
+                        <a class="compact-item" href="https://www.starts.co.jp/athlete/" target="_blank" data-name-ja="スターツ">STARTS</a>
+                        <a class="compact-item" href="https://panasonic.co.jp/sports/angels/" target="_blank" data-name-ja="パナソニック">松下</a>
+                        <a class="compact-item" href="https://www.sysmex.co.jp/sports/swtft/" target="_blank" data-name-ja="シスメックス">sysmex</a>
+                        <a class="compact-item" href="https://www.daiichilife-group.com/athletic-sport/" target="_blank" data-name-ja="第一生命グループ">第一生命集团（Daiichi Life）</a>
+                        <a class="compact-item" href="https://www.universal-777.co.jp/athlete/" target="_blank" data-name-ja="ユニバーサルエンターテインメント">环球娱乐（UNIVERSAL ENTERTAINMENT）</a>
+                        <a class="compact-item" href="https://www.kyocera.co.jp/athlete/" target="_blank" data-name-ja="京セラ">京瓷</a>
+                        <a class="compact-item" href="https://www.higobank.co.jp/aboutus/healthmanagement/ekiden/" target="_blank" data-name-ja="肥後銀行">肥后银行</a>
+                        <a class="compact-item" href="https://www.otsukakj.jp/track/athlete/" target="_blank" data-name-ja="大塚製薬">大冢制药</a>
+                        <a class="compact-item" href="https://www.tokyometro.jp/ekiden/index.html" target="_blank" data-name-ja="東京メトロ">东京地铁</a>
+                        <a class="compact-item" href="https://www.noritz.co.jp/company/about/sports/athletic/" target="_blank" data-name-ja="ノーリツ">NORITZ</a>
+                        <a class="compact-item" href="https://www.route-inn.co.jp/track_field/" target="_blank" data-name-ja="ルートイン">ROUTE INN</a>
+                        <a class="compact-item" href="https://www.himegin.co.jp/about/club/trackfield_woman.html" target="_blank" data-name-ja="愛媛銀行">爱媛银行</a>
+                        <a class="compact-item" href="https://www.kraftia.co.jp/marathon/member/female/" target="_blank" data-name-ja="KRAFTIA（九電工）">KRAFTIA（九电工）</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== 标签页：选手主页 ==================== -->
+        <div class="tab-page" id="tab-athletes">
+            <div class="category">
+                <h2 class="category-title" data-i18n="catAthleteTitle">⭐ 选手个人主页</h2>
+                <div class="site-list">
+                    <div class="site-card">
+                        <div class="site-name">大迫杰</div>
+                        <div class="site-desc">Suguru Osako</div>
+                        <a class="site-link" href="https://suguruosako.com/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                    </div>
+                    <div class="site-card">
+                        <div class="site-name">吉田響</div>
+                        <div class="site-desc">Hibiki Yoshida</div>
+                        <a class="site-link" href="https://hibiki-yoshida.jp/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                    </div>
+                    <div class="site-card">
+                        <div class="site-name">田中希实</div>
+                        <div class="site-desc">Nozomi Tanaka</div>
+                        <a class="site-link" href="https://non-tanaka.jp/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== 标签页：陆上竞技媒体 ==================== -->
+        <div class="tab-page" id="tab-media">
+            <div class="category">
+                <h2 class="category-title" data-i18n="catMediaTitle">📰 日本陆上竞技媒体网站</h2>
+                <div class="site-list">
+                    <div class="site-card">
+                        <div class="site-name">月刊陆上竞技</div>
+                        <div class="site-desc" data-i18n="descGekkan">日本田径权威杂志，有驿传专刊</div>
+                        <a class="site-link" href="https://www.rikujyokyogi.co.jp/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                    </div>
+                    <div class="site-card">
+                        <div class="site-name">Sportiva集英社</div>
+                        <div class="site-desc" data-i18n="descSportiva">日本综合体育期刊，有深度纪实和选手专访</div>
+                        <a class="site-link" href="https://sportiva.shueisha.co.jp/clm/othersports/rikujo/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                    </div>
+                    <div class="site-card">
+                        <div class="site-name">读卖新闻</div>
+                        <div class="site-desc" data-i18n="descYomiuri">箱根驿传主办方，有箱根驿传专栏</div>
+                        <a class="site-link" href="https://www.yomiuri.co.jp/hakone-ekiden/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -825,19 +1542,47 @@
 
     <script>
         // ==================== 多语言翻译数据 ====================
+        // 初始化：保存每个 compact-item 的当前中文名到 data-name-zh
+        document.querySelectorAll('.compact-item[data-name-ja]').forEach(function(el) {
+            el.setAttribute('data-name-zh', el.textContent);
+        });
+
         var I18N = {
             zh: {
                 siteTitle: '日本驿传观赛导航',
-                siteDesc1: '本网站收录日本各驿传比赛、陆上竞技联盟、陆上竞技媒体官方网站，方便对日本驿传比赛感兴趣的朋友们查阅资料。',
+                siteDesc1: '本网站定期更新日本驿传比赛信息，并收录驿传比赛、陆上竞技团体、大学及实业团陆上竞技部、选手主页、陆上竞技媒体等官方网站，方便对日本驿传比赛感兴趣的朋友们查阅资料。',
                 siteDesc2: '网站在不断完善中，如有意见或建议请联系',
                 calendarMainTitle: '日本驿传比赛日历',
                 legendToday: '今日',
                 legendRace: '驿传比赛日',
                 legendOther: '其他比赛日',
+                navRaceInfo: '比赛信息',
+                navOrgs: '陆上竞技团体',
+                navCollegeClub: '大学陆上竞技部',
+                navBusinessClub: '实业团陆上竞技部',
+                navAthletes: '选手主页',
+                navMedia: '陆上竞技媒体',
+                emptyCollegeClub: '内容整理中，敬请期待',
+                emptyBusinessClub: '内容整理中，敬请期待',
+                catCollegeClubTitle: '🏫 大学陆上竞技部网站',
+                subCollegeMen: '大学男子陆上竞技部（驿传队）网站',
+                subCollegeWomen: '大学女子陆上竞技部（驿传队）网站',
+                catCollegeMenTitle: '🏫 大学男子陆上竞技部（驿传队）网站',
+                catCollegeWomenTitle: '🏫 大学女子陆上竞技部（驿传队）网站',
+                subBusinessMen: '实业团男子陆上竞技部（驿传队）网站',
+                subBusinessWomen: '实业团女子陆上竞技部（驿传队）网站',
+                catBusinessMenTitle: '🏢 实业团男子陆上竞技部（驿传队）网站',
+                catBusinessWomenTitle: '🏢 实业团女子陆上竞技部（驿传队）网站',
+                emptyAthletes: '内容整理中，敬请期待',
+                catAthleteTitle: '⭐ 选手个人主页',
+                upcomingRacesTitle: '📋 近期比赛日程',
+                upcomingRaceCatEkiden: '驿传',
+                upcomingRaceCatOther: '其他比赛',
+                upcomingRacesEmpty: '近期暂无比赛',
                 visitSite: '访问网站 →',
                 catCollegeTitle: '🏫 大学生驿传比赛官方网站',
                 catBusinessTitle: '🏢 实业团驿传比赛官方网站',
-                catPrefTitle: '🗾 全国都道府县驿传比赛官方网站',
+                catPrefTitle: '🗾 其他驿传比赛官方网站',
                 catOrgTitle: '🏅 日本陆上竞技团体网站',
                 catMediaTitle: '📰 日本陆上竞技媒体网站',
                 descHakone: '日本三大学生驿传之一，每年1月2日、3日在东京-箱根举办，全程217.1公里',
@@ -847,6 +1592,7 @@
                 descFujisan: '每年12月30日在富士举办，全程43.4公里',
                 descNewYear: '日本水平最高的驿传比赛，每年1月1日在群马举办，全程100公里',
                 descQueen: '日本水平最高的女子驿传比赛，每年11月在仙台举办，全程42.195公里',
+                descOgaEkiden: '设有一般团体、大学、高中男子、高中女子组别的比赛，每年6月在秋田县男鹿市举办，一般/大学组64.8公里，高中男子组37.1公里，高中女子组19.8公里',
                 descPrefMen: '实业团、大学生、中学生混合比赛，每年1月在京都举办，全程48.9公里',
                 descPrefWomen: '实业团、大学生、中学生混合比赛，每年1月在京都举办，全程42.195公里',
                 descJAAF: '可查询日本队过往战绩、MGC、日本纪录等',
@@ -865,6 +1611,7 @@
                 nextTitle: '下一个月',
                 // 比赛名称（日语）
                 raceNames: {
+                    "2026-06-27": "男鹿驿传",
                     "2026-10-12": "出云驿传",
                     "2026-10-17": "箱根驿传预选会",
                     "2026-10-25": "全日本大学女子驿传",
@@ -882,36 +1629,72 @@
                     "2026-06-12": "日本陆上竞技选手权大会",
                     "2026-06-13": "日本陆上竞技选手权大会",
                     "2026-06-14": "日本陆上竞技选手权大会",
+                    "2026-06-28": "函馆马拉松丨日体大长跑田径运动会 | 绊纪录挑战会",
+                    "2026-07-04": "千岁大会",
                     "2026-07-05": "全日本实业团对抗陆上竞技选手权10000m",
+                    "2026-07-08": "网走大会",
+                    "2026-07-11": "北见大会",
+                    "2026-07-15": "深川大会",
+                    "2026-07-18": "士别大会",
+                    "2026-08-30": "北海道马拉松",
                     "2026-09-23": "爱知·名古屋亚运会",
                     "2026-09-24": "爱知·名古屋亚运会",
                     "2026-09-25": "爱知·名古屋亚运会",
-                    "2026-09-26": "爱知·名古屋亚运会",
+                    "2026-09-26": "爱知·名古屋亚运会 | 绊纪录挑战会",
                     "2026-09-27": "爱知·名古屋亚运会",
                     "2026-09-28": "爱知·名古屋亚运会",
                     "2026-09-29": "爱知·名古屋亚运会",
+                    "2026-10-03": "U20日本选手权",
+                    "2026-10-04": "U20日本选手权",
+                    "2026-11-07": "日体大竞技会",
+                    "2026-11-08": "日体大竞技会",
+                    "2026-11-15": "上尾市半程马拉松",
                     "2026-12-06": "福冈国际马拉松",
-                    "2027-02-07": "别府大分每日马拉松大会 / 香川丸龟国际半程马拉松",
-                    "2027-02-21": "青梅马拉松 / 京都马拉松",
+                    "2027-02-07": "别府大分每日马拉松大会 | 香川丸龟国际半程马拉松",
+                    "2027-02-21": "青梅马拉松 | 京都马拉松",
                     "2027-02-28": "大阪马拉松",
                     "2027-03-07": "东京马拉松",
-                    "2027-03-14": "名古屋女子马拉松"
+                    "2027-03-13": "相模原越野大会",
+                    "2027-03-14": "立川市半程马拉松丨延冈西日本马拉松"
                 },
                 raceIcon: '🏃',
                 otherRaceIcon: '🏅'
             },
             ja: {
                 siteTitle: '日本駅伝観戦ナビ',
-                siteDesc1: '当サイトは日本の各駅伝大会、陸上競技連盟、陸上競技メディアの公式サイトをまとめ、日本の駅伝に興味のある方々の情報収集をサポートします。',
+                siteDesc1: '当サイトは日本の駅伝大会情報を定期的に更新し、駅伝大会、陸上競技団体、大学・実業団陸上競技部、選手ページ、陸上競技メディアなどの公式サイトをまとめ、日本の駅伝に興味のある方々の情報収集をサポートします。',
                 siteDesc2: 'サイトは随時更新中です。ご意見・ご要望がございましたら',
                 calendarMainTitle: '日本駅伝大会カレンダー',
                 legendToday: '今日',
                 legendRace: '駅伝大会日',
                 legendOther: 'その他の大会日',
+                navRaceInfo: '大会情報',
+                navOrgs: '陸上競技団体',
+                navCollegeClub: '大学陸上競技部',
+                navBusinessClub: '実業団陸上競技部',
+                navAthletes: '選手ページ',
+                navMedia: '陸上競技メディア',
+                emptyCollegeClub: '準備中、しばらくお待ちください',
+                emptyBusinessClub: '準備中、しばらくお待ちください',
+                catCollegeClubTitle: '🏫 大学陸上競技部サイト',
+                subCollegeMen: '大学男子陸上競技部（駅伝チーム）サイト',
+                subCollegeWomen: '大学女子陸上競技部（駅伝チーム）サイト',
+                catCollegeMenTitle: '🏫 大学男子陸上競技部（駅伝チーム）サイト',
+                catCollegeWomenTitle: '🏫 大学女子陸上競技部（駅伝チーム）サイト',
+                subBusinessMen: '実業団男子陸上競技部（駅伝チーム）サイト',
+                subBusinessWomen: '実業団女子陸上競技部（駅伝チーム）サイト',
+                catBusinessMenTitle: '🏢 実業団男子陸上競技部（駅伝チーム）サイト',
+                catBusinessWomenTitle: '🏢 実業団女子陸上競技部（駅伝チーム）サイト',
+                emptyAthletes: '準備中、しばらくお待ちください',
+                catAthleteTitle: '⭐ 選手個人ページ',
+                upcomingRacesTitle: '📋 近期の試合日程',
+                upcomingRaceCatEkiden: '駅伝',
+                upcomingRaceCatOther: 'その他の試合',
+                upcomingRacesEmpty: '近期に試合はありません',
                 visitSite: 'サイトへ →',
                 catCollegeTitle: '🏫 大学駅伝公式サイト',
                 catBusinessTitle: '🏢 実業団駅伝公式サイト',
-                catPrefTitle: '🗾 全国都道府県駅伝公式サイト',
+                catPrefTitle: '🗾 その他駅伝公式サイト',
                 catOrgTitle: '🏅 日本陸上競技団体サイト',
                 catMediaTitle: '📰 日本陸上競技メディアサイト',
                 descHakone: '大学三大駅伝の一つ。毎年1月2日・3日に東京-箱根間で開催、全長217.1km',
@@ -921,6 +1704,7 @@
                 descFujisan: '毎年12月30日に富士で開催、全長43.4km',
                 descNewYear: '日本最高峰の駅伝大会。毎年1月1日に群馬で開催、全長100km',
                 descQueen: '日本最高峰の女子駅伝大会。毎年11月に仙台で開催、全長42.195km',
+                descOgaEkiden: '一般団体・大学・高校男子・高校女子の各部門あり。毎年6月に秋田県男鹿市で開催。一般/大学部門は64.8km、高校男子は37.1km、高校女子は19.8km',
                 descPrefMen: '実業団・大学生・中学生の混成競技。毎年1月に京都で開催、全長48.9km',
                 descPrefWomen: '実業団・大学生・中学生の混成競技。毎年1月に京都で開催、全長42.195km',
                 descJAAF: '日本代表の戦績、MGC、日本記録などを検索できます',
@@ -938,6 +1722,7 @@
                 prevTitle: '前の月',
                 nextTitle: '次の月',
                 raceNames: {
+                    "2026-06-27": "男鹿駅伝",
                     "2026-10-12": "出雲駅伝",
                     "2026-10-17": "箱根駅伝予選会",
                     "2026-10-25": "全日本大学女子駅伝",
@@ -955,20 +1740,33 @@
                     "2026-06-12": "日本陸上競技選手権大会",
                     "2026-06-13": "日本陸上競技選手権大会",
                     "2026-06-14": "日本陸上競技選手権大会",
+                    "2026-06-28": "函館マラソン丨日体大長距離陸上競技会 | 绊纪录挑战会",
+                    "2026-07-04": "千歳大会",
                     "2026-07-05": "全日本実業団対抗陸上競技選手権10000m",
+                    "2026-07-08": "網走大会",
+                    "2026-07-11": "北見大会",
+                    "2026-07-15": "深川大会",
+                    "2026-07-18": "士別大会",
+                    "2026-08-30": "北海道マラソン",
                     "2026-09-23": "愛知・名古屋アジア競技大会",
                     "2026-09-24": "愛知・名古屋アジア競技大会",
                     "2026-09-25": "愛知・名古屋アジア競技大会",
-                    "2026-09-26": "愛知・名古屋アジア競技大会",
+                    "2026-09-26": "愛知・名古屋アジア競技大会 | 绊纪录挑战会",
                     "2026-09-27": "愛知・名古屋アジア競技大会",
                     "2026-09-28": "愛知・名古屋アジア競技大会",
                     "2026-09-29": "愛知・名古屋アジア競技大会",
+                    "2026-10-03": "U20日本選手権",
+                    "2026-10-04": "U20日本選手権",
+                    "2026-11-07": "日体大競技会",
+                    "2026-11-08": "日体大競技会",
+                    "2026-11-15": "上尾市ハーフマラソン",
                     "2026-12-06": "福岡国際マラソン",
-                    "2027-02-07": "別府大分毎日マラソン大会 / 香川丸亀国際ハーフマラソン",
-                    "2027-02-21": "青梅マラソン / 京都マラソン",
+                    "2027-02-07": "別府大分毎日マラソン大会 | 香川丸亀国際ハーフマラソン",
+                    "2027-02-21": "青梅マラソン | 京都マラソン",
                     "2027-02-28": "大阪マラソン",
                     "2027-03-07": "東京マラソン",
-                    "2027-03-14": "名古屋ウィメンズマラソン"
+                    "2027-03-13": "相模原クロスカントリー大会",
+                    "2027-03-14": "立川市ハーフマラソン丨延岡西日本マラソン"
                 },
                 raceIcon: '🏃',
                 otherRaceIcon: '🏅'
@@ -989,6 +1787,15 @@
                 }
             });
 
+            // 更新 compact-item 的名称（大学、实业团等）
+            document.querySelectorAll('.compact-item[data-name-ja]').forEach(function(el) {
+                if (lang === 'ja') {
+                    el.textContent = el.getAttribute('data-name-ja');
+                } else {
+                    el.textContent = el.getAttribute('data-name-zh');
+                }
+            });
+
             // 更新语言按钮状态
             document.getElementById('btnZh').classList.toggle('active', lang === 'zh');
             document.getElementById('btnJa').classList.toggle('active', lang === 'ja');
@@ -996,12 +1803,63 @@
             // 更新日历
             renderCalendar();
 
+            // 更新近期比赛日程
+            renderUpcomingRaces();
+
             // 更新页面标题
             document.title = t.siteTitle;
         }
 
         document.getElementById('btnZh').addEventListener('click', function() { setLang('zh'); });
         document.getElementById('btnJa').addEventListener('click', function() { setLang('ja'); });
+
+        // ==================== 导航标签页切换 ====================
+        function switchTab(tabId) {
+            // 更新导航按钮
+            document.querySelectorAll('.nav-tab').forEach(function(btn) {
+                btn.classList.toggle('active', btn.getAttribute('data-tab') === tabId);
+            });
+            // 更新内容页面
+            document.querySelectorAll('.tab-page').forEach(function(page) {
+                page.classList.remove('active');
+            });
+            var targetPage = document.getElementById('tab-' + tabId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
+        }
+
+        document.querySelectorAll('.nav-tab').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                switchTab(this.getAttribute('data-tab'));
+            });
+        });
+
+        // ==================== 子导航标签页切换 ====================
+        function switchSubTab(subnavId, parentTabId, subtabId) {
+            document.querySelectorAll('#' + subnavId + ' .sub-nav-tab').forEach(function(btn) {
+                btn.classList.toggle('active', btn.getAttribute('data-subtab') === subtabId);
+            });
+            document.querySelectorAll('#' + parentTabId + ' .sub-tab-page').forEach(function(page) {
+                page.classList.remove('active');
+            });
+            var targetPage = document.getElementById('subtab-' + subtabId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
+        }
+
+        document.querySelectorAll('#collegeSubNav .sub-nav-tab').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                switchSubTab('collegeSubNav', 'tab-college-club', this.getAttribute('data-subtab'));
+            });
+        });
+
+        document.querySelectorAll('#businessSubNav .sub-nav-tab').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                switchSubTab('businessSubNav', 'tab-business-club', this.getAttribute('data-subtab'));
+            });
+        });
 
         // ==================== 日历逻辑 ====================
         var calendarGrid = document.getElementById('calendarGrid');
@@ -1078,11 +1936,35 @@
                     cell.classList.add('today');
                 }
 
-                if (raceData.hasOwnProperty(dateKey)) {
-                    cell.classList.add('race-day');
+                var hasRace = raceData.hasOwnProperty(dateKey);
+                var hasOther = otherData.hasOwnProperty(dateKey);
+
+                // 合并显示：驿传优先，同一天有驿传+其他时采用驿传样式
+                if (hasRace || hasOther) {
+                    if (hasRace) {
+                        cell.classList.add('race-day');
+                    } else {
+                        cell.classList.add('other-race-day');
+                    }
+
+                    var tooltipParts = [];
+                    // 比赛名内部若已含 " | " 形式的分隔符，把前后空格替换为 NBSP，
+                    // 避免 tooltip 换行时 | 单独占一行
+                    function bindInternalSeparators(s) {
+                        return s.replace(/ \| /g, '\u00A0|\u00A0').replace(/ \|/g, '\u00A0|').replace(/\| /g, '|\u00A0');
+                    }
+                    if (hasRace) {
+                        // emoji + NBSP + 比赛名，让 emoji 与文字始终粘在一起
+                        tooltipParts.push(t.raceIcon + '\u00A0' + bindInternalSeparators(raceData[dateKey]));
+                    }
+                    if (hasOther) {
+                        tooltipParts.push(t.otherRaceIcon + '\u00A0' + bindInternalSeparators(otherData[dateKey]));
+                    }
                     var tooltip = document.createElement('span');
                     tooltip.className = 'race-tooltip';
-                    tooltip.textContent = t.raceIcon + ' ' + raceData[dateKey];
+                    // 用 NBSP 把每个部分+分隔符绑定为一个不可断开单位，避免 | 单独占一行
+                    var separator = '\u00A0|\u00A0';
+                    tooltip.textContent = tooltipParts.join(separator);
                     cell.appendChild(tooltip);
                     cell.addEventListener('click', function(e) {
                         var tt = this.querySelector('.race-tooltip');
@@ -1090,26 +1972,52 @@
                             if (tt.style.display === 'block') {
                                 tt.style.display = 'none';
                             } else {
-                                tt.style.display = 'block';
-                                setTimeout(function() { tt.style.display = 'none'; }, 2000);
-                            }
-                        }
-                    });
-                }
+                                // 隐藏其他已显示的 tooltip
+                                document.querySelectorAll('.race-tooltip').forEach(function(other) {
+                                    if (other !== tt) other.style.display = 'none';
+                                });
 
-                if (otherData.hasOwnProperty(dateKey)) {
-                    cell.classList.add('other-race-day');
-                    var otherTooltip = document.createElement('span');
-                    otherTooltip.className = 'race-tooltip';
-                    otherTooltip.textContent = t.otherRaceIcon + ' ' + otherData[dateKey];
-                    cell.appendChild(otherTooltip);
-                    cell.addEventListener('click', function(e) {
-                        var tt = this.querySelector('.race-tooltip');
-                        if (tt) {
-                            if (tt.style.display === 'block') {
-                                tt.style.display = 'none';
-                            } else {
+                                // 根据单元格在视口中的位置决定 tooltip 显示方向
+                                var rect = this.getBoundingClientRect();
+                                var estimatedHeight = 80;
+                                if (rect.top > estimatedHeight) {
+                                    tt.style.top = 'auto';
+                                    tt.style.bottom = 'calc(100% + 6px)';
+                                } else {
+                                    tt.style.top = 'calc(100% + 6px)';
+                                    tt.style.bottom = 'auto';
+                                }
+
+                                // 临时显示以测量实际尺寸
+                                tt.style.visibility = 'hidden';
                                 tt.style.display = 'block';
+                                var ttRect = tt.getBoundingClientRect();
+                                var vw = window.innerWidth;
+                                var margin = 8;
+                                // 如果 tooltip 右侧溢出
+                                if (ttRect.right > vw - margin) {
+                                    // 改为以单元格右边缘对齐
+                                    var newLeft = rect.right - ttRect.width;
+                                    if (newLeft < margin) newLeft = margin;
+                                    // 由于 absolute 定位相对 cell，需要调整 left
+                                    var cellRect = this.getBoundingClientRect();
+                                    var offset = (newLeft - cellRect.left);
+                                    tt.style.left = (offset + ttRect.width / 2) + 'px';
+                                    tt.style.transform = 'translateX(-50%)';
+                                }
+                                // 如果 tooltip 左侧溢出
+                                else if (ttRect.left < margin) {
+                                    var cellRect = this.getBoundingClientRect();
+                                    var newLeft = margin;
+                                    var offset = (newLeft - cellRect.left);
+                                    tt.style.left = (offset + ttRect.width / 2) + 'px';
+                                    tt.style.transform = 'translateX(-50%)';
+                                } else {
+                                    tt.style.left = '50%';
+                                    tt.style.transform = 'translateX(-50%)';
+                                }
+                                tt.style.visibility = '';
+
                                 setTimeout(function() { tt.style.display = 'none'; }, 2000);
                             }
                         }
@@ -1153,6 +2061,156 @@
         });
 
         renderCalendar();
+
+        // ==================== 近期比赛日程逻辑 ====================
+        function renderUpcomingRaces() {
+            var t = I18N[currentLang];
+            var listEl = document.getElementById('upcomingRacesList');
+            var now = new Date();
+            var todayStr = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
+            var oneMonthLater = new Date(now);
+            oneMonthLater.setMonth(oneMonthLater.getMonth() + 1);
+            var cutoffStr = oneMonthLater.getFullYear() + '-' + String(oneMonthLater.getMonth() + 1).padStart(2, '0') + '-' + String(oneMonthLater.getDate()).padStart(2, '0');
+
+            var allRaces = [];
+
+            // 合并 raceNames 和 otherRaceNames
+            for (var key in t.raceNames) {
+                if (t.raceNames.hasOwnProperty(key) && key >= todayStr && key <= cutoffStr) {
+                    allRaces.push({ date: key, name: t.raceNames[key], type: 'ekiden' });
+                }
+            }
+            for (var key in t.otherRaceNames) {
+                if (t.otherRaceNames.hasOwnProperty(key) && key >= todayStr && key <= cutoffStr) {
+                    allRaces.push({ date: key, name: t.otherRaceNames[key], type: 'other' });
+                }
+            }
+
+            // 按日期从近到远排序
+            allRaces.sort(function(a, b) { return a.date.localeCompare(b.date); });
+
+            listEl.innerHTML = '';
+
+            if (allRaces.length === 0) {
+                var emptyLi = document.createElement('li');
+                emptyLi.className = 'upcoming-races-empty';
+                emptyLi.textContent = t.upcomingRacesEmpty;
+                listEl.appendChild(emptyLi);
+                return;
+            }
+
+            // 格式化日期为 月/日 星期
+            var dayNamesShort = currentLang === 'zh' ? ['周日', '周一', '周二', '周三', '周四', '周五', '周六'] : ['日', '月', '火', '水', '木', '金', '土'];
+
+            for (var i = 0; i < allRaces.length; i++) {
+                var race = allRaces[i];
+                var parts = race.date.split('-');
+                var d = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+                var month = parseInt(parts[1]);
+                var day = parseInt(parts[2]);
+                var weekday = dayNamesShort[d.getDay()];
+                var dateStr = month + '/' + day + ' ' + weekday;
+
+                var li = document.createElement('li');
+                li.className = 'upcoming-race-item';
+
+                var catSpan = document.createElement('span');
+                catSpan.className = 'upcoming-race-category ' + (race.type === 'ekiden' ? 'ekiden' : 'other');
+                catSpan.textContent = race.type === 'ekiden' ? t.upcomingRaceCatEkiden : t.upcomingRaceCatOther;
+
+                var dateSpan = document.createElement('span');
+                dateSpan.className = 'upcoming-race-date';
+                dateSpan.textContent = dateStr;
+
+                var nameSpan = document.createElement('span');
+                nameSpan.className = 'upcoming-race-name';
+                nameSpan.textContent = race.name;
+
+                li.appendChild(catSpan);
+                li.appendChild(dateSpan);
+                li.appendChild(nameSpan);
+                listEl.appendChild(li);
+            }
+        }
+
+        renderUpcomingRaces();
+
+        // 初始化：用 I18N 数据覆盖 HTML 默认文本
+        setLang('zh');
+
+        // ==================== 网格占位补全 ====================
+        // 为 compact-list 最后一行补全空占位格，保持网格整齐
+        function fillCompactListPlaceholders() {
+            var lists = document.querySelectorAll('.compact-list');
+            for (var i = 0; i < lists.length; i++) {
+                var list = lists[i];
+
+                // 跳过隐藏的列表（不可见时 offsetTop 都是 0，无法正确计算列数）
+                if (list.offsetParent === null) continue;
+
+                var items = list.querySelectorAll('.compact-item');
+                if (items.length === 0) continue;
+
+                // 获取当前列数：通过取第一行两个格子的 offsetTop 来判断
+                var cols = 1;
+                if (items.length >= 2) {
+                    cols = 1;
+                    for (var c = 1; c < items.length; c++) {
+                        if (items[c].offsetTop > items[0].offsetTop) {
+                            cols = c;
+                            break;
+                        }
+                    }
+                    // 如果所有 item 都在同一行，说明只有一行，cols 就是 item 总数
+                    if (cols === 1 && items[items.length - 1].offsetTop === items[0].offsetTop) {
+                        cols = items.length;
+                    }
+                }
+
+                // 移除已有的占位格（重算时）
+                var existingPlaceholders = list.querySelectorAll('.compact-placeholder');
+                for (var p = 0; p < existingPlaceholders.length; p++) {
+                    existingPlaceholders[p].parentNode.removeChild(existingPlaceholders[p]);
+                }
+
+                var remainder = items.length % cols;
+                if (remainder === 0 || cols === 0) continue;
+
+                var placeholdersNeeded = cols - remainder;
+                for (var j = 0; j < placeholdersNeeded; j++) {
+                    var placeholder = document.createElement('span');
+                    placeholder.className = 'compact-item compact-placeholder';
+                    placeholder.textContent = '\u00A0'; // 不间断空格，保持高度
+                    placeholder.style.pointerEvents = 'none';
+                    placeholder.style.cursor = 'default';
+                    placeholder.style.textDecoration = 'none';
+                    list.appendChild(placeholder);
+                }
+            }
+        }
+
+        // 首次执行（仅对可见列表生效）
+        fillCompactListPlaceholders();
+
+        // 标签页切换时，对刚显示的列表补全
+        document.querySelectorAll('.nav-tab').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                // 等 DOM 渲染完成后补全
+                setTimeout(fillCompactListPlaceholders, 50);
+            });
+        });
+        document.querySelectorAll('.sub-nav-tab').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                setTimeout(fillCompactListPlaceholders, 50);
+            });
+        });
+
+        // 响应式：窗口大小变化时重新补全
+        var _resizeTimeout;
+        window.addEventListener('resize', function() {
+            clearTimeout(_resizeTimeout);
+            _resizeTimeout = setTimeout(fillCompactListPlaceholders, 200);
+        });
     </script>
 </body>
 </html>

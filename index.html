@@ -1133,6 +1133,18 @@
             margin-top: 40px;
             font-size: 13px;
         }
+        .footer-privacy {
+            margin-top: 8px;
+            opacity: 0.85;
+        }
+        .footer-privacy a {
+            color: white;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+        .footer-privacy a:hover {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
@@ -1539,6 +1551,7 @@
                 <a class="contact-link" href="https://xhslink.com/m/3iTY27O5kzz" target="_blank">@温暖小葵</a>
                 <span data-i18n="footerOr"> 或 </span>691393516@qq.com
             </p>
+            <p class="footer-privacy" data-i18n="footerPrivacy" data-i18n-html>隐私政策：本站使用 <a href="https://www.goatcounter.com/" target="_blank" rel="noopener">GoatCounter</a> 进行匿名访问统计，该服务不收集个人身份信息，也不会跨页追踪您的行为。</p>
         </div>
     </div>
 
@@ -1607,6 +1620,7 @@
                 descYomiuri: '箱根驿传主办方，有箱根驿传专栏',
                 footerText: '日本驿传观赛导航 © 2026 | 联系',
                 footerOr: ' 或 ',
+                footerPrivacy: '隐私政策：本站使用 <a href="https://www.goatcounter.com/" target="_blank" rel="noopener">GoatCounter</a> 进行匿名访问统计，该服务不收集个人身份信息，也不会跨页追踪您的行为。',
                 monthFormat: '{year}年{month}月',
                 dayNames: ['日', '一', '二', '三', '四', '五', '六'],
                 prevTitle: '上一个月',
@@ -1722,6 +1736,7 @@
                 descYomiuri: '箱根駅伝主催者、箱根駅伝コラムあり',
                 footerText: '日本駅伝観戦ナビ © 2026 | お問い合わせ',
                 footerOr: ' または ',
+                footerPrivacy: 'プライバシー：本サイトは <a href="https://www.goatcounter.com/" target="_blank" rel="noopener">GoatCounter</a> による匿名統計を利用しています。個人を特定する情報は収集されず、ページをまたいだ行動追跡も行われません。',
                 monthFormat: '{year}年{month}月',
                 dayNames: ['日', '月', '火', '水', '木', '金', '土'],
                 prevTitle: '前の月',
@@ -1788,9 +1803,13 @@
             var t = I18N[lang];
 
             // 更新所有带 data-i18n 的元素
+            // 含 data-i18n-html 的 key 允许内嵌 HTML（如 <a>），其余一律按纯文本处理
             document.querySelectorAll('[data-i18n]').forEach(function(el) {
                 var key = el.getAttribute('data-i18n');
-                if (t[key]) {
+                if (!t[key]) return;
+                if (el.hasAttribute('data-i18n-html')) {
+                    el.innerHTML = t[key];
+                } else {
                     el.textContent = t[key];
                 }
             });

@@ -7,6 +7,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>日本驿传观赛导航</title>
     <style>
+        /* ========== CSS 目录索引 ==========
+           1. 全局重置与背景
+           2. 语言切换按钮
+           3. 主导航栏
+           4. 子导航栏（标签页内）
+           5. 紧凑列表样式
+           6. 日历模块
+           7. 近期比赛日程
+           8. 触屏优化
+           9. 平板适配
+          10. 手机适配
+          11. 小屏手机适配（< 480px）
+          12. 极小屏适配（< 370px）
+        ================================ */
+
+        /* #region 1. 全局重置与背景 */
         * {
             margin: 0;
             padding: 0;
@@ -46,6 +62,9 @@
             margin: 0 auto;
         }
 
+        /* #endregion */
+
+        /* #region 2. 语言切换按钮 */
         /* ==================== 语言切换按钮 ==================== */
         .lang-switch-wrap {
             display: flex;
@@ -116,6 +135,9 @@
             margin: 0 auto;
         }
 
+        /* #endregion */
+
+        /* #region 3. 主导航栏 */
         /* ==================== 主导航栏 ==================== */
         .main-nav {
             display: flex;
@@ -166,6 +188,9 @@
             font-weight: bold;
         }
 
+        /* #endregion */
+
+        /* #region 4. 子导航栏（标签页内） */
         /* ==================== 子导航栏（标签页内） ==================== */
         .sub-nav {
             display: flex;
@@ -318,6 +343,9 @@
             color: white;
         }
 
+        /* #endregion */
+
+        /* #region 5. 紧凑列表样式（大学/实业团链接） */
         /* ==================== 紧凑列表样式（大学/实业团链接） ==================== */
         .compact-list {
             display: grid;
@@ -385,6 +413,9 @@
             }
         }
 
+        /* #endregion */
+
+        /* #region 6. 日历模块 */
         /* ==================== 日历模块 ==================== */
         .calendar-module {
             background: rgba(255,255,255,0.5);
@@ -645,6 +676,9 @@
             border: 2px solid #1976d2;
         }
 
+        /* #endregion */
+
+        /* #region 7. 近期比赛日程 */
         /* ==================== 近期比赛日程 ==================== */
         .upcoming-races {
             background: rgba(255,255,255,0.5);
@@ -719,6 +753,33 @@
             min-width: 0;
         }
 
+        /* ===== 近期比赛日程：未来 7 天高亮 + 跳动图标 ===== */
+        /* 保持原有底色/边框/形状不动，只把日期和比赛名的文字染成本站主红 #e51e21 */
+        .upcoming-race-item.is-soon .upcoming-race-date {
+            color: #e51e21;
+            font-weight: 700;
+        }
+        .upcoming-race-item.is-soon .upcoming-race-name {
+            color: #e51e21;
+            font-weight: 700;
+        }
+        .upcoming-race-soon-icon {
+            display: inline-block;
+            margin-left: 6px;
+            font-size: 0.95em;
+            transform-origin: 50% 80%;
+            animation: soon-icon-bounce 1.2s ease-in-out infinite;
+        }
+        @keyframes soon-icon-bounce {
+            0%, 100% { transform: translateY(0) scale(1); }
+            30%      { transform: translateY(-4px) scale(1.15); }
+            55%      { transform: translateY(0) scale(0.95); }
+            80%      { transform: translateY(-2px) scale(1.05); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .upcoming-race-soon-icon { animation: none; }
+        }
+
         .upcoming-races-empty {
             text-align: center;
             color: #888;
@@ -726,6 +787,9 @@
             padding: 8px 0;
         }
 
+        /* #endregion */
+
+        /* #region 8. 触屏优化（全局） */
         /* ==================== 触屏优化（全局） ==================== */
         .calendar-nav,
         .calendar-cell,
@@ -806,6 +870,9 @@
             }
         }
 
+        /* #endregion */
+
+        /* #region 9. 平板适配 */
         /* ==================== 平板适配 ==================== */
         @media (max-width: 1024px) {
             .site-list {
@@ -813,6 +880,9 @@
             }
         }
 
+        /* #endregion */
+
+        /* #region 10. 手机适配 */
         /* ==================== 手机适配 ==================== */
         @media (max-width: 768px) {
             body {
@@ -993,6 +1063,9 @@
         }
 
         /* 底部 */
+        /* #endregion */
+
+        /* #region 11. 小屏手机适配（< 480px） */
         /* ==================== 小屏手机适配（< 480px） ==================== */
         @media (max-width: 480px) {
             body {
@@ -1103,6 +1176,9 @@
             }
         }
 
+        /* #endregion */
+
+        /* #region 12. 极小屏适配（< 370px） */
         /* ==================== 极小屏适配（< 370px） ==================== */
         @media (max-width: 370px) {
             .nav-tab {
@@ -1145,10 +1221,23 @@
         .footer-privacy a:hover {
             opacity: 1;
         }
+        /* #endregion */
     </style>
 </head>
 <body>
+    <!-- ========== HTML 目录索引 ==========
+         1. 主导航栏（含语言切换按钮）
+         2. 标签页：比赛信息
+         3. 标签页：陆上竞技团体
+         4. 标签页：大学陆上竞技部
+         5. 标签页：实业团陆上竞技部
+         6. 标签页：选手主页
+         7. 标签页：陆上竞技媒体
+         8. 底部与隐私
+    =================================== -->
+
     <div class="container">
+        <!-- #region 1. 主导航栏 -->
         <!-- 语言切换按钮 -->
         <div class="lang-switch-wrap">
             <div class="lang-switch">
@@ -1175,7 +1264,9 @@
             <button class="nav-tab" data-tab="athletes" data-i18n="navAthletes">选手主页</button>
             <button class="nav-tab" data-tab="media" data-i18n="navMedia">陆上竞技媒体</button>
         </div>
+        <!-- #endregion -->
 
+        <!-- #region 2. 标签页：比赛信息 -->
         <!-- ==================== 标签页：比赛信息 ==================== -->
         <div class="tab-page active" id="tab-race-info">
 
@@ -1281,6 +1372,9 @@
             </div>
         </div>
 
+        <!-- #endregion -->
+
+        <!-- #region 3. 标签页：陆上竞技团体 -->
         <!-- ==================== 标签页：陆上竞技团体 ==================== -->
         <div class="tab-page" id="tab-orgs">
             <div class="category">
@@ -1297,24 +1391,97 @@
                         <a class="site-link" href="http://www.jita-trackfield.jp/" target="_blank" data-i18n="visitSite">访问网站 →</a>
                     </div>
                     <div class="site-card">
+                        <div class="site-name">日本学生陆上竞技联合</div>
+                        <div class="site-desc" data-i18n="descIUAU">可查询日本学生比赛信息、纪录等</div>
+                        <a class="site-link" href="https://www.iuau.jp/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                    </div>
+                </div>
+            </div>
+            <div class="category">
+                <h2 class="category-title" data-i18n="catRegBizTitle">地区实业团陆上竞技团体网站</h2>
+                <div class="site-list">
+                    <div class="site-card">
                         <div class="site-name">东日本实业团陆上竞技联盟</div>
                         <div class="site-desc" data-i18n="descHNJ">可查询东日本实业团比赛信息</div>
                         <a class="site-link" href="http://hnj.jita-trackfield.jp/" target="_blank" data-i18n="visitSite">访问网站 →</a>
                     </div>
                     <div class="site-card">
-                        <div class="site-name">日本学生陆上竞技联合</div>
-                        <div class="site-desc" data-i18n="descIUAU">可查询日本学生比赛信息、纪录等</div>
-                        <a class="site-link" href="https://www.iuau.jp/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                        <div class="site-name">中部实业团陆上竞技联盟</div>
+                        <div class="site-desc" data-i18n="descChubuBiz">可查询中部日本实业团比赛信息</div>
+                        <a class="site-link" href="http://chubu.jita-trackfield.jp/" target="_blank" data-i18n="visitSite">访问网站 →</a>
                     </div>
+                    <div class="site-card">
+                        <div class="site-name">北陆实业团陆上竞技联盟</div>
+                        <div class="site-desc" data-i18n="descHokurikuBiz">可查询北陆日本实业团比赛信息</div>
+                        <a class="site-link" href="http://hokuriku.jita-trackfield.jp/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                    </div>
+                    <div class="site-card">
+                        <div class="site-name">关西实业团陆上竞技联盟</div>
+                        <div class="site-desc" data-i18n="descKansaiBiz">可查询关西日本实业团比赛信息</div>
+                        <a class="site-link" href="http://kansai.jita-trackfield.jp/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                    </div>
+                    <div class="site-card">
+                        <div class="site-name">中国实业团陆上竞技联盟</div>
+                        <div class="site-desc" data-i18n="descChugokuBiz">可查询中国日本实业团比赛信息</div>
+                        <a class="site-link" href="http://chugoku.jita-trackfield.jp/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                    </div>
+                    <div class="site-card">
+                        <div class="site-name">九州实业团陆上竞技联盟</div>
+                        <div class="site-desc" data-i18n="descKyushuBiz">可查询九州日本实业团比赛信息</div>
+                        <a class="site-link" href="https://kj-rikujo.com/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                    </div>
+                </div>
+            </div>
+            <div class="category">
+                <h2 class="category-title" data-i18n="catRegStuTitle">地区学生陆上竞技团体网站</h2>
+                <div class="site-list">
                     <div class="site-card">
                         <div class="site-name">关东学生陆上竞技联盟</div>
                         <div class="site-desc" data-i18n="descKGRR">可查询关东学生比赛信息、纪录等</div>
                         <a class="site-link" href="https://www.kgrr.org/" target="_blank" data-i18n="visitSite">访问网站 →</a>
                     </div>
+                    <div class="site-card">
+                        <div class="site-name">北海道学生陆上竞技联盟</div>
+                        <div class="site-desc" data-i18n="descHokkaidoStu">可查询北海道学生比赛信息、纪录等</div>
+                        <a class="site-link" href="https://sites.google.com/site/hokkaidogakuren2016/home" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                    </div>
+                    <div class="site-card">
+                        <div class="site-name">东北学生陆上竞技联盟</div>
+                        <div class="site-desc" data-i18n="descTohokuStu">可查询东北学生比赛信息、纪录等</div>
+                        <a class="site-link" href="http://tgrr.jp/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                    </div>
+                    <div class="site-card">
+                        <div class="site-name">北信越学生陆上竞技联盟</div>
+                        <div class="site-desc" data-i18n="descHokushinetsuStu">可查询北信越学生比赛信息、纪录等</div>
+                        <a class="site-link" href="http://hokusinetsugakuren.g2.xrea.com/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                    </div>
+                    <div class="site-card">
+                        <div class="site-name">东海学生陆上竞技联盟</div>
+                        <div class="site-desc" data-i18n="descTokaiStu">可查询东海学生比赛信息、纪录等</div>
+                        <a class="site-link" href="https://gold.jaic.org/tgrr/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                    </div>
+                    <div class="site-card">
+                        <div class="site-name">关西学生陆上竞技联盟</div>
+                        <div class="site-desc" data-i18n="descKansaiStu">可查询关西学生比赛信息、纪录等</div>
+                        <a class="site-link" href="https://gold.jaic.org/icaak/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                    </div>
+                    <div class="site-card">
+                        <div class="site-name">中国四国学生陆上竞技联盟</div>
+                        <div class="site-desc" data-i18n="descChushikokuStu">可查询中国四国学生比赛信息、纪录等</div>
+                        <a class="site-link" href="https://gold.jaic.org/icalcs/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                    </div>
+                    <div class="site-card">
+                        <div class="site-name">九州学生陆上竞技联盟</div>
+                        <div class="site-desc" data-i18n="descKyushuStu">可查询九州学生比赛信息、纪录等</div>
+                        <a class="site-link" href="http://www.kyu-athi.sakura.ne.jp/" target="_blank" data-i18n="visitSite">访问网站 →</a>
+                    </div>
                 </div>
             </div>
         </div>
 
+        <!-- #endregion -->
+
+        <!-- #region 4. 标签页：大学陆上竞技部 -->
         <!-- ==================== 标签页：大学陆上竞技部 ==================== -->
         <div class="tab-page" id="tab-college-club">
             <!-- 子导航栏 -->
@@ -1405,6 +1572,9 @@
             </div>
         </div>
 
+        <!-- #endregion -->
+
+        <!-- #region 5. 标签页：实业团陆上竞技部 -->
         <!-- ==================== 标签页：实业团陆上竞技部 ==================== -->
         <div class="tab-page" id="tab-business-club">
             <!-- 子导航栏 -->
@@ -1496,6 +1666,9 @@
             </div>
         </div>
 
+        <!-- #endregion -->
+
+        <!-- #region 6. 标签页：选手主页 -->
         <!-- ==================== 标签页：选手主页 ==================== -->
         <div class="tab-page" id="tab-athletes">
             <div class="category">
@@ -1520,6 +1693,9 @@
             </div>
         </div>
 
+        <!-- #endregion -->
+
+        <!-- #region 7. 标签页：陆上竞技媒体 -->
         <!-- ==================== 标签页：陆上竞技媒体 ==================== -->
         <div class="tab-page" id="tab-media">
             <div class="category">
@@ -1543,7 +1719,9 @@
                 </div>
             </div>
         </div>
+        <!-- #endregion -->
 
+        <!-- #region 8. 底部与隐私 -->
         <!-- 底部 -->
         <div class="footer">
             <p>
@@ -1553,9 +1731,20 @@
             </p>
             <p class="footer-privacy" data-i18n="footerPrivacy" data-i18n-html>隐私政策：本站使用 <a href="https://www.goatcounter.com/" target="_blank" rel="noopener">GoatCounter</a> 进行匿名访问统计，该服务不收集个人身份信息，也不会跨页追踪您的行为。</p>
         </div>
+        <!-- #endregion -->
     </div>
 
     <script>
+        // ========== JS 目录索引 ==========
+        // 1. 多语言翻译数据（I18N 对象 + 按钮事件）
+        // 2. 导航标签页切换（switchTab）
+        // 3. 子导航标签页切换（switchSubTab）
+        // 4. 日历逻辑（renderCalendar）
+        // 5. 近期比赛日程逻辑（renderUpcomingRaces）
+        // 6. 网格占位补全（fillCompactListPlaceholders）
+        // ================================
+
+        // #region 1. 多语言翻译数据（I18N + 按钮事件）
         // ==================== 多语言翻译数据 ====================
         // 初始化：保存每个 compact-item 的当前中文名到 data-name-zh
         document.querySelectorAll('.compact-item[data-name-ja]').forEach(function(el) {
@@ -1599,6 +1788,8 @@
                 catBusinessTitle: '🏢 实业团驿传比赛官方网站',
                 catPrefTitle: '🗾 其他驿传比赛官方网站',
                 catOrgTitle: '🏅 日本陆上竞技团体网站',
+                catRegBizTitle: '地区实业团陆上竞技团体网站',
+                catRegStuTitle: '地区学生陆上竞技团体网站',
                 catMediaTitle: '📰 日本陆上竞技媒体网站',
                 descHakone: '日本三大学生驿传之一，每年1月2日、3日在东京-箱根举办，全程217.1公里',
                 descDaigaku: '日本三大学生驿传之一，每年11月在名古屋举办，全程106.8公里',
@@ -1612,9 +1803,21 @@
                 descPrefWomen: '实业团、大学生、中学生混合比赛，每年1月在京都举办，全程42.195公里',
                 descJAAF: '可查询日本队过往战绩、MGC、日本纪录等',
                 descJITA: '可查询日本实业团比赛信息',
-                descHNJ: '可查询东日本实业团比赛信息',
                 descIUAU: '可查询日本学生比赛信息、纪录等',
+                descHNJ: '可查询东日本实业团比赛信息',
+                descChubuBiz: '可查询中部日本实业团比赛信息',
+                descHokurikuBiz: '可查询北陆日本实业团比赛信息',
+                descKansaiBiz: '可查询关西日本实业团比赛信息',
+                descChugokuBiz: '可查询中国日本实业团比赛信息',
+                descKyushuBiz: '可查询九州日本实业团比赛信息',
                 descKGRR: '可查询关东学生比赛信息、纪录等',
+                descHokkaidoStu: '可查询北海道学生比赛信息、纪录等',
+                descTohokuStu: '可查询东北学生比赛信息、纪录等',
+                descHokushinetsuStu: '可查询北信越学生比赛信息、纪录等',
+                descTokaiStu: '可查询东海学生比赛信息、纪录等',
+                descKansaiStu: '可查询关西学生比赛信息、纪录等',
+                descChushikokuStu: '可查询中国四国学生比赛信息、纪录等',
+                descKyushuStu: '可查询九州学生比赛信息、纪录等',
                 descGekkan: '日本田径权威杂志，有驿传专刊',
                 descSportiva: '日本综合体育期刊，有深度纪实和选手专访',
                 descYomiuri: '箱根驿传主办方，有箱根驿传专栏',
@@ -1715,6 +1918,8 @@
                 catBusinessTitle: '🏢 実業団駅伝公式サイト',
                 catPrefTitle: '🗾 その他駅伝公式サイト',
                 catOrgTitle: '🏅 日本陸上競技団体サイト',
+                catRegBizTitle: '地区実業団陸上競技団体サイト',
+                catRegStuTitle: '地区学生陸上競技団体サイト',
                 catMediaTitle: '📰 日本陸上競技メディアサイト',
                 descHakone: '大学三大駅伝の一つ。毎年1月2日・3日に東京-箱根間で開催、全長217.1km',
                 descDaigaku: '大学三大駅伝の一つ。毎年11月に名古屋で開催、全長106.8km',
@@ -1728,9 +1933,21 @@
                 descPrefWomen: '実業団・大学生・中学生の混成競技。毎年1月に京都で開催、全長42.195km',
                 descJAAF: '日本代表の戦績、MGC、日本記録などを検索できます',
                 descJITA: '日本実業団の大会情報を検索できます',
-                descHNJ: '東日本実業団の大会情報を検索できます',
                 descIUAU: '日本学生の大会情報・記録などを検索できます',
+                descHNJ: '東日本実業団の大会情報を検索できます',
+                descChubuBiz: '中部日本実業団の大会情報を検索できます',
+                descHokurikuBiz: '北陸日本実業団の大会情報を検索できます',
+                descKansaiBiz: '関西日本実業団の大会情報を検索できます',
+                descChugokuBiz: '中国日本実業団の大会情報を検索できます',
+                descKyushuBiz: '九州日本実業団の大会情報を検索できます',
                 descKGRR: '関東学生の大会情報・記録などを検索できます',
+                descHokkaidoStu: '北海道学生の大会情報・記録などを検索できます',
+                descTohokuStu: '東北学生の大会情報・記録などを検索できます',
+                descHokushinetsuStu: '北信越学生の大会情報・記録などを検索できます',
+                descTokaiStu: '東海学生の大会情報・記録などを検索できます',
+                descKansaiStu: '関西学生の大会情報・記録などを検索できます',
+                descChushikokuStu: '中国四国学生の大会情報・記録などを検索できます',
+                descKyushuStu: '九州学生の大会情報・記録などを検索できます',
                 descGekkan: '日本陸上競技の専門誌、駅伝特集あり',
                 descSportiva: '日本の総合スポーツ誌、深いルポルタージュと選手インタビュー',
                 descYomiuri: '箱根駅伝主催者、箱根駅伝コラムあり',
@@ -1840,6 +2057,9 @@
         document.getElementById('btnZh').addEventListener('click', function() { setLang('zh'); });
         document.getElementById('btnJa').addEventListener('click', function() { setLang('ja'); });
 
+        // #endregion
+
+        // #region 2. 导航标签页切换（switchTab）
         // ==================== 导航标签页切换 ====================
         function switchTab(tabId) {
             // 更新导航按钮
@@ -1862,6 +2082,9 @@
             });
         });
 
+        // #endregion
+
+        // #region 3. 子导航标签页切换（switchSubTab）
         // ==================== 子导航标签页切换 ====================
         function switchSubTab(subnavId, parentTabId, subtabId) {
             document.querySelectorAll('#' + subnavId + ' .sub-nav-tab').forEach(function(btn) {
@@ -1888,6 +2111,9 @@
             });
         });
 
+        // #endregion
+
+        // #region 4. 日历逻辑（renderCalendar）
         // ==================== 日历逻辑 ====================
         var calendarGrid = document.getElementById('calendarGrid');
         var calendarTitle = document.getElementById('calendarTitle');
@@ -2089,6 +2315,9 @@
 
         renderCalendar();
 
+        // #endregion
+
+        // #region 5. 近期比赛日程逻辑（renderUpcomingRaces）
         // ==================== 近期比赛日程逻辑 ====================
         function renderUpcomingRaces() {
             var t = I18N[currentLang];
@@ -2138,8 +2367,14 @@
                 var weekday = dayNamesShort[d.getDay()];
                 var dateStr = month + '/' + day + ' ' + weekday;
 
+                // 计算"距今天几天"——用于判断是否属于未来 7 天（含今天）
+                var msPerDay = 24 * 60 * 60 * 1000;
+                var todayMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                var daysFromNow = Math.round((d - todayMidnight) / msPerDay);
+                var isSoon = daysFromNow >= 0 && daysFromNow <= 6;
+
                 var li = document.createElement('li');
-                li.className = 'upcoming-race-item';
+                li.className = 'upcoming-race-item' + (isSoon ? ' is-soon' : '');
 
                 var catSpan = document.createElement('span');
                 catSpan.className = 'upcoming-race-category ' + (race.type === 'ekiden' ? 'ekiden' : 'other');
@@ -2153,6 +2388,15 @@
                 nameSpan.className = 'upcoming-race-name';
                 nameSpan.textContent = race.name;
 
+                // 未来 7 天的比赛：在名称后追加一个跳动的小图标
+                if (isSoon) {
+                    var soonIcon = document.createElement('span');
+                    soonIcon.className = 'upcoming-race-soon-icon';
+                    soonIcon.textContent = '🔥';
+                    soonIcon.setAttribute('aria-hidden', 'true');
+                    nameSpan.appendChild(soonIcon);
+                }
+
                 li.appendChild(catSpan);
                 li.appendChild(dateSpan);
                 li.appendChild(nameSpan);
@@ -2165,6 +2409,9 @@
         // 初始化：用 I18N 数据覆盖 HTML 默认文本
         setLang('zh');
 
+        // #endregion
+
+        // #region 6. 网格占位补全（fillCompactListPlaceholders）
         // ==================== 网格占位补全 ====================
         // 为 compact-list 最后一行补全空占位格，保持网格整齐
         function fillCompactListPlaceholders() {
@@ -2238,6 +2485,7 @@
             clearTimeout(_resizeTimeout);
             _resizeTimeout = setTimeout(fillCompactListPlaceholders, 200);
         });
+        // #endregion
     </script>
 </body>
 </html>

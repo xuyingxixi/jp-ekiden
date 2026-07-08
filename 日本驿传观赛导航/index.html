@@ -194,6 +194,7 @@
         /* ==================== 子导航栏（标签页内） ==================== */
         .sub-nav {
             display: flex;
+            flex-direction: column;
             gap: 10px;
             margin-bottom: 20px;
             justify-content: center;
@@ -201,8 +202,16 @@
             border: none;
         }
 
+        .sub-nav-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
         .sub-nav-tab {
-            flex: 0 1 auto;
+            flex: 1 1 auto;
+            min-width: 0;
             padding: 8px 22px;
             border-radius: 999px;
             border: 1px solid rgba(255,255,255,0.45);
@@ -388,6 +397,50 @@
         .compact-item .compact-arrow {
             display: none;
         }
+
+        /* 观赛/巡礼列表（紧凑堆叠，作者+题目） */
+        .guide-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .guide-item {
+            background: rgba(255,255,255,0.4);
+            border-radius: 6px;
+            padding: 10px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.2s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .guide-item:hover {
+            background: rgba(229, 30, 33, 0.15);
+        }
+
+        .guide-item-author {
+            font-size: 12px;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .guide-item-title {
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .guide-item:hover .guide-item-title {
+            color: #e51e21;
+            font-weight: bold;
+        }
+
 
         /* 平板：4列 */
         @media (max-width: 900px) {
@@ -921,6 +974,9 @@
 
             .sub-nav {
                 gap: 8px;
+            }
+
+            .sub-nav-row {
                 flex-wrap: wrap;
             }
 
@@ -1126,6 +1182,9 @@
 
             .sub-nav {
                 gap: 6px;
+            }
+
+            .sub-nav-row {
                 flex-wrap: wrap;
             }
 
@@ -1228,9 +1287,9 @@
     <!-- ========== HTML 目录索引 ==========
          1. 主导航栏（含语言切换按钮）
          2. 标签页：比赛信息
-         3. 标签页：陆上竞技团体
-         4. 标签页：大学陆上竞技部
-         5. 标签页：实业团陆上竞技部
+         3. 标签页：陆上竞技联盟
+         4. 标签页：陆上竞技部
+         5. 标签页：观赛/巡礼
          6. 标签页：选手主页
          7. 标签页：陆上竞技媒体
          8. 底部与隐私
@@ -1250,7 +1309,7 @@
         <div class="header">
             <h1 data-i18n="siteTitle">日本驿传观赛导航</h1>
             <p class="subtitle">
-                <span data-i18n="siteDesc1">本网站定期更新日本驿传比赛信息，并收录驿传比赛、陆上竞技团体、大学及实业团陆上竞技部、选手主页、陆上竞技媒体等官方网站，方便对日本驿传比赛感兴趣的朋友们查阅资料。</span><br>
+                <span data-i18n="siteDesc1">本网站定期更新日本驿传比赛信息，并收录驿传比赛、陆上竞技联盟、大学及实业团陆上竞技部、选手主页、陆上竞技媒体等官方网站，方便对日本驿传比赛感兴趣的朋友们查阅资料。</span><br>
                 <span data-i18n="siteDesc2">网站在不断完善中，如有意见或建议请联系</span><a class="contact-link" href="https://xhslink.com/m/3iTY27O5kzz" target="_blank">@温暖小葵</a>
             </p>
         </div>
@@ -1258,11 +1317,11 @@
         <!-- ==================== 主导航栏 ==================== -->
         <div class="main-nav" id="mainNav">
             <button class="nav-tab active" data-tab="race-info" data-i18n="navRaceInfo">比赛信息</button>
-            <button class="nav-tab" data-tab="orgs" data-i18n="navOrgs">陆上竞技团体</button>
-            <button class="nav-tab" data-tab="college-club" data-i18n="navCollegeClub">大学陆上竞技部</button>
-            <button class="nav-tab" data-tab="business-club" data-i18n="navBusinessClub">实业团陆上竞技部</button>
+            <button class="nav-tab" data-tab="orgs" data-i18n="navOrgs">陆上竞技联盟</button>
+            <button class="nav-tab" data-tab="clubs" data-i18n="navClubs">陆上竞技部</button>
             <button class="nav-tab" data-tab="athletes" data-i18n="navAthletes">选手主页</button>
             <button class="nav-tab" data-tab="media" data-i18n="navMedia">陆上竞技媒体</button>
+            <button class="nav-tab" data-tab="guide" data-i18n="navGuide">观赛/巡礼</button>
         </div>
         <!-- #endregion -->
 
@@ -1374,11 +1433,11 @@
 
         <!-- #endregion -->
 
-        <!-- #region 3. 标签页：陆上竞技团体 -->
-        <!-- ==================== 标签页：陆上竞技团体 ==================== -->
+        <!-- #region 3. 标签页：陆上竞技联盟 -->
+        <!-- ==================== 标签页：陆上竞技联盟 ==================== -->
         <div class="tab-page" id="tab-orgs">
             <div class="category">
-                <h2 class="category-title" data-i18n="catOrgTitle">🏅 日本陆上竞技团体网站</h2>
+                <h2 class="category-title" data-i18n="catOrgTitle">🏅 日本陆上竞技联盟网站</h2>
                 <div class="site-list">
                     <div class="site-card">
                         <div class="site-name">日本陆上竞技联盟</div>
@@ -1398,7 +1457,7 @@
                 </div>
             </div>
             <div class="category">
-                <h2 class="category-title" data-i18n="catRegBizTitle">地区实业团陆上竞技团体网站</h2>
+                <h2 class="category-title" data-i18n="catRegBizTitle">地区实业团陆上竞技联盟网站</h2>
                 <div class="site-list">
                     <div class="site-card">
                         <div class="site-name">东日本实业团陆上竞技联盟</div>
@@ -1433,7 +1492,7 @@
                 </div>
             </div>
             <div class="category">
-                <h2 class="category-title" data-i18n="catRegStuTitle">地区学生陆上竞技团体网站</h2>
+                <h2 class="category-title" data-i18n="catRegStuTitle">地区学生陆上竞技联盟网站</h2>
                 <div class="site-list">
                     <div class="site-card">
                         <div class="site-name">关东学生陆上竞技联盟</div>
@@ -1481,13 +1540,19 @@
 
         <!-- #endregion -->
 
-        <!-- #region 4. 标签页：大学陆上竞技部 -->
-        <!-- ==================== 标签页：大学陆上竞技部 ==================== -->
-        <div class="tab-page" id="tab-college-club">
+        <!-- #region 4. 标签页：陆上竞技部 -->
+        <!-- ==================== 标签页：陆上竞技部 ==================== -->
+        <div class="tab-page" id="tab-clubs">
             <!-- 子导航栏 -->
-            <div class="sub-nav" id="collegeSubNav">
-                <button class="sub-nav-tab active" data-subtab="college-men" data-i18n="subCollegeMen">大学男子陆上竞技部（驿传队）网站</button>
-                <button class="sub-nav-tab" data-subtab="college-women" data-i18n="subCollegeWomen">大学女子陆上竞技部（驿传队）网站</button>
+            <div class="sub-nav" id="clubsSubNav">
+                <div class="sub-nav-row">
+                    <button class="sub-nav-tab active" data-subtab="college-men" data-i18n="subCollegeMen">大学男子陆上竞技部（驿传队）网站</button>
+                    <button class="sub-nav-tab" data-subtab="business-men" data-i18n="subBusinessMen">实业团男子陆上竞技部（驿传队）网站</button>
+                </div>
+                <div class="sub-nav-row">
+                    <button class="sub-nav-tab" data-subtab="college-women" data-i18n="subCollegeWomen">大学女子陆上竞技部（驿传队）网站</button>
+                    <button class="sub-nav-tab" data-subtab="business-women" data-i18n="subBusinessWomen">实业团女子陆上竞技部（驿传队）网站</button>
+                </div>
             </div>
 
             <!-- 子页面：男子 -->
@@ -1570,21 +1635,9 @@
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- #endregion -->
-
-        <!-- #region 5. 标签页：实业团陆上竞技部 -->
-        <!-- ==================== 标签页：实业团陆上竞技部 ==================== -->
-        <div class="tab-page" id="tab-business-club">
-            <!-- 子导航栏 -->
-            <div class="sub-nav" id="businessSubNav">
-                <button class="sub-nav-tab active" data-subtab="business-men" data-i18n="subBusinessMen">实业团男子陆上竞技部（驿传队）网站</button>
-                <button class="sub-nav-tab" data-subtab="business-women" data-i18n="subBusinessWomen">实业团女子陆上竞技部（驿传队）网站</button>
-            </div>
-
-            <!-- 子页面：男子 -->
-            <div class="sub-tab-page active" id="subtab-business-men">
+            <!-- 子页面：实业团男子 -->
+            <div class="sub-tab-page" id="subtab-business-men">
                 <div class="category">
                     <h2 class="category-title" data-i18n="catBusinessMenTitle">🏢 实业团男子陆上竞技部（驿传队）网站</h2>
                     <div class="compact-list">
@@ -1596,7 +1649,7 @@
                         <a class="compact-item" href="https://www.energia.co.jp/corp/active/symbolsports/rikujo/index.html" target="_blank" data-name-ja="中国電力">中国电力</a>
                         <a class="compact-item" href="https://www.krosaki.co.jp/trackfield/" target="_blank" data-name-ja="黒崎播磨">黑崎播磨</a>
                         <a class="compact-item" href="https://global.honda/jp/sports/track/" target="_blank" data-name-ja="Honda">Honda</a>
-                        <a class="compact-item" href="https://www.asahi-kasei.com/jp/sports-event/track-field" target="_blank" data-name-ja="旭化成">旭化成</a>
+                        <a class="compact-item" href="https://www.asahi-kasei.com/jp/sports-event/track-field" target="_blank" data-name-ja="旭化成</a>
                         <a class="compact-item" href="https://sports.jp.fujitsu.com/trackfield/" target="_blank" data-name-ja="富士通">富士通</a>
                         <a class="compact-item" href="https://www.mhi.com/jp/company/sports/marathon/" target="_blank" data-name-ja="三菱重工">三菱重工</a>
                         <a class="compact-item" href="https://sports.yaskawa.co.jp/track-field/" target="_blank" data-name-ja="安川電機">安川电机</a>
@@ -1632,7 +1685,7 @@
                 </div>
             </div>
 
-            <!-- 子页面：女子 -->
+            <!-- 子页面：实业团女子 -->
             <div class="sub-tab-page" id="subtab-business-women">
                 <div class="category">
                     <h2 class="category-title" data-i18n="catBusinessWomenTitle">🏢 实业团女子陆上竞技部（驿传队）网站</h2>
@@ -1661,6 +1714,224 @@
                         <a class="compact-item" href="https://www.route-inn.co.jp/track_field/" target="_blank" data-name-ja="ルートイン">ROUTE INN</a>
                         <a class="compact-item" href="https://www.himegin.co.jp/about/club/trackfield_woman.html" target="_blank" data-name-ja="愛媛銀行">爱媛银行</a>
                         <a class="compact-item" href="https://www.kraftia.co.jp/marathon/member/female/" target="_blank" data-name-ja="KRAFTIA（九電工）">KRAFTIA（九电工）</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- #endregion -->
+
+        <!-- #region 5. 标签页：观赛/巡礼 -->
+        <!-- ==================== 标签页：观赛/巡礼 ==================== -->
+        <div class="tab-page" id="tab-guide">
+            <!-- 子导航栏 -->
+            <div class="sub-nav" id="guideSubNav">
+                <div class="sub-nav-row">
+                    <button class="sub-nav-tab active" data-subtab="guide-strategy" data-i18n="subGuideStrategy">观赛攻略</button>
+                    <button class="sub-nav-tab" data-subtab="guide-experience" data-i18n="subGuideExperience">观赛体验</button>
+                    <button class="sub-nav-tab" data-subtab="guide-pilgrimage" data-i18n="subGuidePilgrimage">圣地巡礼</button>
+                </div>
+            </div>
+
+            <!-- 子页面：观赛攻略 -->
+            <div class="sub-tab-page active" id="subtab-guide-strategy">
+                <div class="category">
+                    <h2 class="category-title" data-i18n="catGuideVideoTitle">🎬 视频</h2>
+                    <div class="guide-list">
+                        <a class="guide-item" href="https://b23.tv/RyBLNbL" target="_blank" rel="noopener">
+                            <div class="guide-item-author">@FredHu胡老师</div>
+                            <div class="guide-item-title">箱根驿传历史盘点及现场观赛计划经验分享</div>
+                        </a>
+                    </div>
+                </div>
+                <div class="category">
+                    <h2 class="category-title" data-i18n="catGuideArticleTitle">📝 图文</h2>
+                    <div class="guide-list">
+                        <a class="guide-item" href="http://xhslink.com/o/56gvD2gbrqf" target="_blank" rel="noopener">
+                            <div class="guide-item-author">@柚子</div>
+                            <div class="guide-item-title">日本田径&驿传观赛全攻略（实战版）</div>
+                        </a>
+                        <a class="guide-item" href="http://xhslink.com/o/ALtxMTYMYyI" target="_blank" rel="noopener">
+                            <div class="guide-item-author">@温暖小葵</div>
+                            <div class="guide-item-title">第102回箱根驿传观赛行程（五区徒步版）</div>
+                        </a>
+                        <a class="guide-item" href="http://xhslink.com/o/AYNe1vHBREJ" target="_blank" rel="noopener">
+                            <div class="guide-item-author">@温暖小葵</div>
+                            <div class="guide-item-title">第70回新年驿传观赛行程（桐生冲刺版）</div>
+                        </a>
+                        <a class="guide-item" href="http://xhslink.com/o/7EAB3gn7kAx" target="_blank" rel="noopener">
+                            <div class="guide-item-author">@FredHu胡老师</div>
+                            <div class="guide-item-title">箱根驿传观赛交通方式推荐及箱根周游券分享</div>
+                        </a>
+                        <a class="guide-item" href="http://xhslink.com/o/2hvxOBJRjHM" target="_blank" rel="noopener">
+                            <div class="guide-item-author">@FredHu胡老师</div>
+                            <div class="guide-item-title">去看箱根驿传的一定要收藏这个地图</div>
+                        </a>
+                        <a class="guide-item" href="http://xhslink.com/o/2bxgYVBRRzV" target="_blank" rel="noopener">
+                            <div class="guide-item-author">@FredHu胡老师</div>
+                            <div class="guide-item-title">在中国到底怎么看箱根驿传直播，赶快收藏好</div>
+                        </a>
+                        <a class="guide-item" href="http://xhslink.com/o/5lXwoVvInLS" target="_blank" rel="noopener">
+                            <div class="guide-item-author">@FredHu胡老师</div>
+                            <div class="guide-item-title">箱根驿传现场观赛攻略 给水点位地址信息</div>
+                        </a>
+                        <a class="guide-item" href="http://xhslink.com/o/6CUNopfEYdF" target="_blank" rel="noopener">
+                            <div class="guide-item-author">@FredHu胡老师</div>
+                            <div class="guide-item-title">去现场看箱根驿传这几点要做好准备</div>
+                        </a>
+                        <a class="guide-item" href="http://xhslink.com/o/7XdXK4258OE" target="_blank" rel="noopener">
+                            <div class="guide-item-author">@FredHu胡老师</div>
+                            <div class="guide-item-title">箱根驿传周边去哪儿买 总结篇</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 子页面：观赛体验 -->
+            <div class="sub-tab-page" id="subtab-guide-experience">
+                <div class="category">
+                    <h2 class="category-title" data-i18n="catGuideVideoTitle">🎬 视频</h2>
+                    <div class="guide-list">
+                        <a class="guide-item" href="https://b23.tv/XC8eyXM" target="_blank" rel="noopener">
+                            <div class="guide-item-author">@FredHu胡老师</div>
+                            <div class="guide-item-title">箱根山岳险天下 独家机位呈现 2026第102回箱根驿传5区</div>
+                        </a>
+                        <a class="guide-item" href="https://b23.tv/ejzFKZS" target="_blank" rel="noopener">
+                            <div class="guide-item-author">@FredHu胡老师</div>
+                            <div class="guide-item-title">剧本都不敢这么拍，只差1秒遗憾痛失箱根驿传正赛门票，再次被预选会现场的氛围震撼</div>
+                        </a>
+                        <a class="guide-item" href="https://b23.tv/ZdnOYjX" target="_blank" rel="noopener">
+                            <div class="guide-item-author">@高清吴马（@奥尔里奇吴+@卡洛斯马）</div>
+                            <div class="guide-item-title">惊爆&逆袭｜102回箱根现场回顾片</div>
+                        </a>
+                        <a class="guide-item" href="https://b23.tv/VaBSExS" target="_blank" rel="noopener">
+                            <div class="guide-item-author">@温暖小葵</div>
+                            <div class="guide-item-title">一起去顶点吧！第102回箱根驿传现场观赛记录</div>
+                        </a>
+                    </div>
+                </div>
+                <div class="category">
+                    <h2 class="category-title" data-i18n="catGuideArticleTitle">📝 图文</h2>
+                    <div class="guide-list">
+                        <a class="guide-item" href="http://xhslink.com/o/8MgvRsz3eNn" target="_blank" rel="noopener">
+                            <div class="guide-item-author">@柚子</div>
+                            <div class="guide-item-title">金栗观赛流水账</div>
+                        </a>
+                        <a class="guide-item" href="http://xhslink.com/o/2XfYsbIHBFv" target="_blank" rel="noopener">
+                            <div class="guide-item-author">@柚子</div>
+                            <div class="guide-item-title">102回箱根驿传观赛打卡</div>
+                        </a>
+                        <a class="guide-item" href="http://xhslink.com/o/8qS6kSWGxyy" target="_blank" rel="noopener">
+                            <div class="guide-item-author">@柚子</div>
+                            <div class="guide-item-title">观赛记录，出云驿传&东京半马</div>
+                        </a>
+                        <a class="guide-item" href="http://xhslink.com/o/1iaZ6gCF91a" target="_blank" rel="noopener">
+                            <div class="guide-item-author">@柚子</div>
+                            <div class="guide-item-title">北海道观赛+观光记录</div>
+                        </a>
+                        <a class="guide-item" href="http://xhslink.com/o/3XO2WlNvQlJ" target="_blank" rel="noopener">
+                            <div class="guide-item-author">@柚子</div>
+                            <div class="guide-item-title">极限12小时观赛成功！30回都道府县驿传</div>
+                        </a>
+                        <a class="guide-item" href="http://xhslink.com/o/820xYhcsqZu" target="_blank" rel="noopener">
+                            <div class="guide-item-author">@累累Lele</div>
+                            <div class="guide-item-title">我为什么喜欢（现场）看Hakone Ekiden</div>
+                        </a>
+                    </div>
+                </div>
+                <div class="category">
+                    <h2 class="category-title" data-i18n="catGuidePodcastTitle">🎙️ 播客</h2>
+                    <div class="guide-list">
+                        <a class="guide-item" href="https://www.xiaoyuzhoufm.com/episode/6948198b9f70e5d6b385f81f" target="_blank" rel="noopener">
+                            <div class="guide-item-author">@杰克蜀黍的唠叨</div>
+                            <div class="guide-item-title">最激烈的箱根驿传</div>
+                        </a>
+                        <a class="guide-item" href="https://www.xiaoyuzhoufm.com/episode/696b5c4e109824f9e1fcc7c7" target="_blank" rel="noopener">
+                            <div class="guide-item-author">@杰克蜀黍的唠叨</div>
+                            <div class="guide-item-title">看箱根驿传的Tips</div>
+                        </a>
+                        <a class="guide-item" href="https://www.xiaoyuzhoufm.com/episode/69610949f8b05f9f75b5620e" target="_blank" rel="noopener">
+                            <div class="guide-item-author">@杰克蜀黍的唠叨</div>
+                            <div class="guide-item-title">第102届箱根驿传战国时代开启【上】</div>
+                        </a>
+                        <a class="guide-item" href="https://www.xiaoyuzhoufm.com/episode/6961a36cf8b05f9f75c0b726" target="_blank" rel="noopener">
+                            <div class="guide-item-author">@心动过缓</div>
+                            <div class="guide-item-title">第102届箱根驿传战国时代开启【中】</div>
+                        </a>
+                        <a class="guide-item" href="https://www.xiaoyuzhoufm.com/episode/6961c268e235ea65bc0eafe4" target="_blank" rel="noopener">
+                            <div class="guide-item-author">@特别捧场</div>
+                            <div class="guide-item-title">第102届箱根驿传战国时代开启【下】</div>
+                        </a>
+                        <a class="guide-item" href="https://www.xiaoyuzhoufm.com/episode/697c0d7eb4be4c149b330c61" target="_blank" rel="noopener">
+                            <div class="guide-item-author">@特别捧场</div>
+                            <div class="guide-item-title">箱根驿传过去一个月了，我很想念它</div>
+                        </a>
+                        <a class="guide-item" href="https://www.xiaoyuzhoufm.com/episode/6960d2b5e235ea65bcf5d8c2" target="_blank" rel="noopener">
+                            <div class="guide-item-author">@胡途跑世界</div>
+                            <div class="guide-item-title">来自箱根驿传现场的随机采访，我们在这里感受强风吹拂</div>
+                        </a>
+                        <a class="guide-item" href="https://www.xiaoyuzhoufm.com/episode/6976de44109824f9e18ee695" target="_blank" rel="noopener">
+                            <div class="guide-item-author">@胡途跑世界</div>
+                            <div class="guide-item-title">从箱根到新年驿传：我们在日本现场"追"男大的那些事</div>
+                        </a>
+                        <a class="guide-item" href="https://www.xiaoyuzhoufm.com/episode/697ffabd2fc7f49d094cb4d8" target="_blank" rel="noopener">
+                            <div class="guide-item-author">@野人三项</div>
+                            <div class="guide-item-title">"这就是最好看的长跑比赛"，箱根驿传种草实录（上）</div>
+                        </a>
+                        <a class="guide-item" href="https://www.xiaoyuzhoufm.com/episode/698e822ade29766da96c8673" target="_blank" rel="noopener">
+                            <div class="guide-item-author">@野人三项</div>
+                            <div class="guide-item-title">在现场感受直播之外的细节，箱根驿传种草实录（下）</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 子页面：圣地巡礼 -->
+            <div class="sub-tab-page" id="subtab-guide-pilgrimage">
+                <div class="category">
+                    <h2 class="category-title" data-i18n="catGuideVideoTitle">🎬 视频</h2>
+                    <div class="guide-list">
+                        <a class="guide-item" href="https://b23.tv/uNZesKQ" target="_blank" rel="noopener">
+                            <div class="guide-item-author">@FredHu胡老师</div>
+                            <div class="guide-item-title">第一视角跑箱根 大手町出发 感受低温和强风 箱根驿传路线巡礼计划之1区</div>
+                        </a>
+                        <a class="guide-item" href="https://b23.tv/Y8MQvmO" target="_blank" rel="noopener">
+                            <div class="guide-item-author">@FredHu胡老师</div>
+                            <div class="guide-item-title">最速对抗 王牌云集 花之2区当之无愧 箱根驿传路线巡礼之2区</div>
+                        </a>
+                        <a class="guide-item" href="https://b23.tv/smkxSmX" target="_blank" rel="noopener">
+                            <div class="guide-item-author">@FredHu胡老师</div>
+                            <div class="guide-item-title">富士山相模湾 湘南海岸最美区间 箱根驿传路线巡礼之3区</div>
+                        </a>
+                        <a class="guide-item" href="https://b23.tv/zhUTJN8" target="_blank" rel="noopener">
+                            <div class="guide-item-author">@FredHu胡老师</div>
+                            <div class="guide-item-title">准王牌登场，箱根登山之前的狂奔 箱根驿传路线巡礼之4区</div>
+                        </a>
+                        <a class="guide-item" href="https://b23.tv/NqM0lZC" target="_blank" rel="noopener">
+                            <div class="guide-item-author">@FredHu胡老师</div>
+                            <div class="guide-item-title">箱根山岳险天下，成为自己的山神 箱根驿传路线巡礼之5区</div>
+                        </a>
+                    </div>
+                </div>
+                <div class="category">
+                    <h2 class="category-title" data-i18n="catGuideArticleTitle">📝 图文</h2>
+                    <div class="guide-list">
+                        <a class="guide-item" href="http://xhslink.com/o/8magek5OBBK" target="_blank" rel="noopener">
+                            <div class="guide-item-author">@温暖小葵</div>
+                            <div class="guide-item-title">强风吹拂圣地巡礼——宽政大学篇</div>
+                        </a>
+                        <a class="guide-item" href="http://xhslink.com/o/249Bksns2u6" target="_blank" rel="noopener">
+                            <div class="guide-item-author">@温暖小葵</div>
+                            <div class="guide-item-title">强风吹拂圣地巡礼——大手町篇</div>
+                        </a>
+                        <a class="guide-item" href="http://xhslink.com/o/68LmI2LqT0" target="_blank" rel="noopener">
+                            <div class="guide-item-author">@温暖小葵</div>
+                            <div class="guide-item-title">强风吹拂圣地巡礼——鹤见中继所篇</div>
+                        </a>
+                        <a class="guide-item" href="http://xhslink.com/o/APo5c3NQW2f" target="_blank" rel="noopener">
+                            <div class="guide-item-author">@温暖小葵</div>
+                            <div class="guide-item-title">强风吹拂圣地巡礼——箱根篇</div>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -1754,18 +2025,18 @@
         var I18N = {
             zh: {
                 siteTitle: '日本驿传观赛导航',
-                siteDesc1: '本网站定期更新日本驿传比赛信息，并收录驿传比赛、陆上竞技团体、大学及实业团陆上竞技部、选手主页、陆上竞技媒体等官方网站，方便对日本驿传比赛感兴趣的朋友们查阅资料。',
+                siteDesc1: '本网站定期更新日本驿传比赛信息，并收录驿传比赛、陆上竞技联盟、大学及实业团陆上竞技部、选手主页、陆上竞技媒体等官方网站，方便对日本驿传比赛感兴趣的朋友们查阅资料。',
                 siteDesc2: '网站在不断完善中，如有意见或建议请联系',
                 calendarMainTitle: '日本驿传比赛日历',
                 legendToday: '今日',
                 legendRace: '驿传比赛日',
                 legendOther: '其他比赛日',
                 navRaceInfo: '比赛信息',
-                navOrgs: '陆上竞技团体',
-                navCollegeClub: '大学陆上竞技部',
-                navBusinessClub: '实业团陆上竞技部',
+                navOrgs: '陆上竞技联盟',
+                navClubs: '陆上竞技部',
                 navAthletes: '选手主页',
                 navMedia: '陆上竞技媒体',
+                navGuide: '观赛/巡礼',
                 emptyCollegeClub: '内容整理中，敬请期待',
                 emptyBusinessClub: '内容整理中，敬请期待',
                 catCollegeClubTitle: '🏫 大学陆上竞技部网站',
@@ -1775,6 +2046,9 @@
                 catCollegeWomenTitle: '🏫 大学女子陆上竞技部（驿传队）网站',
                 subBusinessMen: '实业团男子陆上竞技部（驿传队）网站',
                 subBusinessWomen: '实业团女子陆上竞技部（驿传队）网站',
+                subGuideStrategy: '观赛攻略',
+                subGuideExperience: '观赛体验',
+                subGuidePilgrimage: '圣地巡礼',
                 catBusinessMenTitle: '🏢 实业团男子陆上竞技部（驿传队）网站',
                 catBusinessWomenTitle: '🏢 实业团女子陆上竞技部（驿传队）网站',
                 emptyAthletes: '内容整理中，敬请期待',
@@ -1787,10 +2061,13 @@
                 catCollegeTitle: '🏫 大学生驿传比赛官方网站',
                 catBusinessTitle: '🏢 实业团驿传比赛官方网站',
                 catPrefTitle: '🗾 其他驿传比赛官方网站',
-                catOrgTitle: '🏅 日本陆上竞技团体网站',
-                catRegBizTitle: '地区实业团陆上竞技团体网站',
-                catRegStuTitle: '地区学生陆上竞技团体网站',
+                catOrgTitle: '🏅 日本陆上竞技联盟网站',
+                catRegBizTitle: '地区实业团陆上竞技联盟网站',
+                catRegStuTitle: '地区学生陆上竞技联盟网站',
                 catMediaTitle: '📰 日本陆上竞技媒体网站',
+                catGuideVideoTitle: '🎬 视频',
+                catGuideArticleTitle: '📝 图文',
+                catGuidePodcastTitle: '🎙️ 播客',
                 descHakone: '日本三大学生驿传之一，每年1月2日、3日在东京-箱根举办，全程217.1公里',
                 descDaigaku: '日本三大学生驿传之一，每年11月在名古屋举办，全程106.8公里',
                 descIzumo: '日本三大学生驿传之一，每年10月在出云举办，全程45.1公里',
@@ -1884,18 +2161,18 @@
             },
             ja: {
                 siteTitle: '日本駅伝観戦ナビ',
-                siteDesc1: '当サイトは日本の駅伝大会情報を定期的に更新し、駅伝大会、陸上競技団体、大学・実業団陸上競技部、選手ページ、陸上競技メディアなどの公式サイトをまとめ、日本の駅伝に興味のある方々の情報収集をサポートします。',
+                siteDesc1: '当サイトは日本の駅伝大会情報を定期的に更新し、駅伝大会、陸上競技連盟、大学・実業団陸上競技部、選手ページ、陸上競技メディアなどの公式サイトをまとめ、日本の駅伝に興味のある方々の情報収集をサポートします。',
                 siteDesc2: 'サイトは随時更新中です。ご意見・ご要望がございましたら',
                 calendarMainTitle: '日本駅伝大会カレンダー',
                 legendToday: '今日',
                 legendRace: '駅伝大会日',
                 legendOther: 'その他の大会日',
                 navRaceInfo: '大会情報',
-                navOrgs: '陸上競技団体',
-                navCollegeClub: '大学陸上競技部',
-                navBusinessClub: '実業団陸上競技部',
+                navOrgs: '陸上競技連盟',
+                navClubs: '陸上競技部',
                 navAthletes: '選手ページ',
                 navMedia: '陸上競技メディア',
+                navGuide: '観戦/巡礼',
                 emptyCollegeClub: '準備中、しばらくお待ちください',
                 emptyBusinessClub: '準備中、しばらくお待ちください',
                 catCollegeClubTitle: '🏫 大学陸上競技部サイト',
@@ -1905,6 +2182,9 @@
                 catCollegeWomenTitle: '🏫 大学女子陸上競技部（駅伝チーム）サイト',
                 subBusinessMen: '実業団男子陸上競技部（駅伝チーム）サイト',
                 subBusinessWomen: '実業団女子陸上競技部（駅伝チーム）サイト',
+                subGuideStrategy: '観戦攻略',
+                subGuideExperience: '観戦体験',
+                subGuidePilgrimage: '聖地巡礼',
                 catBusinessMenTitle: '🏢 実業団男子陸上競技部（駅伝チーム）サイト',
                 catBusinessWomenTitle: '🏢 実業団女子陸上競技部（駅伝チーム）サイト',
                 emptyAthletes: '準備中、しばらくお待ちください',
@@ -1917,10 +2197,13 @@
                 catCollegeTitle: '🏫 大学駅伝公式サイト',
                 catBusinessTitle: '🏢 実業団駅伝公式サイト',
                 catPrefTitle: '🗾 その他駅伝公式サイト',
-                catOrgTitle: '🏅 日本陸上競技団体サイト',
-                catRegBizTitle: '地区実業団陸上競技団体サイト',
-                catRegStuTitle: '地区学生陸上競技団体サイト',
+                catOrgTitle: '🏅 日本陸上競技連盟サイト',
+                catRegBizTitle: '地区実業団陸上競技連盟サイト',
+                catRegStuTitle: '地区学生陸上競技連盟サイト',
                 catMediaTitle: '📰 日本陸上競技メディアサイト',
+                catGuideVideoTitle: '🎬 動画',
+                catGuideArticleTitle: '📝 記事',
+                catGuidePodcastTitle: '🎙️ ポッドキャスト',
                 descHakone: '大学三大駅伝の一つ。毎年1月2日・3日に東京-箱根間で開催、全長217.1km',
                 descDaigaku: '大学三大駅伝の一つ。毎年11月に名古屋で開催、全長106.8km',
                 descIzumo: '大学三大駅伝の一つ。毎年10月に出雲で開催、全長45.1km',
@@ -2099,15 +2382,15 @@
             }
         }
 
-        document.querySelectorAll('#collegeSubNav .sub-nav-tab').forEach(function(btn) {
+        document.querySelectorAll('#clubsSubNav .sub-nav-tab').forEach(function(btn) {
             btn.addEventListener('click', function() {
-                switchSubTab('collegeSubNav', 'tab-college-club', this.getAttribute('data-subtab'));
+                switchSubTab('clubsSubNav', 'tab-clubs', this.getAttribute('data-subtab'));
             });
         });
 
-        document.querySelectorAll('#businessSubNav .sub-nav-tab').forEach(function(btn) {
+        document.querySelectorAll('#guideSubNav .sub-nav-tab').forEach(function(btn) {
             btn.addEventListener('click', function() {
-                switchSubTab('businessSubNav', 'tab-business-club', this.getAttribute('data-subtab'));
+                switchSubTab('guideSubNav', 'tab-guide', this.getAttribute('data-subtab'));
             });
         });
 

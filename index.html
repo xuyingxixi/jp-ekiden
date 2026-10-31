@@ -31,35 +31,26 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Microsoft YaHei", "Hiragino Sans", "Noto Sans JP", sans-serif;
-            /* 背景图：覆盖整个页面，居中裁剪，固定不动 */
-            background: url('background.jpg') no-repeat center center fixed;
-            background-size: cover;
-            /* 后备：如果图片未加载，显示渐变色 */
-            background-color: #e51e21;
+            /* 白底设计：不再使用背景图 */
+            background: #ffffff;
             min-height: 100vh;
-            padding: 40px 20px;
+            /* 左右不留白，让顶部导航栏可以通到页面两端 */
+            padding: 0;
             position: relative;
         }
 
-        /* 半透明遮罩层：确保文字可读性 */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.35);
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        /* 所有内容在遮罩层上方 */
         .container {
             position: relative;
             z-index: 1;
             max-width: 1000px;
             margin: 0 auto;
+            /* 内容区自身的内边距（原 body 的 padding 移到这里） */
+            padding: 24px 20px 40px;
+        }
+
+        /* 顶部（语言切换 + 网站名称/介绍）区块：底部不留间距，紧邻下方通栏导航条 */
+        .container-header {
+            padding: 30px 20px 0;
         }
 
         /* #endregion */
@@ -74,10 +65,10 @@
 
         .lang-switch {
             display: flex;
-            background: rgba(255,255,255,0.2);
+            background: #f5f5f5;
             border-radius: 20px;
             overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.4);
+            border: 1px solid #e0e0e0;
         }
 
         .lang-btn {
@@ -85,7 +76,7 @@
             font-size: 13px;
             border: none;
             background: transparent;
-            color: rgba(255,255,255,0.8);
+            color: #666;
             cursor: pointer;
             transition: all 0.3s;
             font-family: inherit;
@@ -93,16 +84,14 @@
         }
 
         .lang-btn.active {
-            background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
+            background: #e51e21;
             color: white;
             font-weight: bold;
         }
 
         .lang-btn:not(.active):hover {
-            background: rgba(255,255,255,0.15);
-            color: white;
+            background: #eeeeee;
+            color: #333;
         }
 
         @media (max-width: 768px) {
@@ -118,17 +107,19 @@
         /* 头部 */
         .header {
             text-align: center;
-            color: white;
+            color: #333;
             margin-bottom: 40px;
         }
 
         .header h1 {
             font-size: 36px;
-            margin-bottom: 10px;
+            margin-bottom: 22px;
+            /* 白底上用品牌红突出站点标题 */
+            color: #e51e21;
         }
 
         .header .subtitle {
-            font-size: 15px;
+            font-size: 13px;
             opacity: 0.9;
             line-height: 1.7;
             max-width: 800px;
@@ -139,53 +130,64 @@
 
         /* #region 3. 主导航栏 */
         /* ==================== 主导航栏 ==================== */
+        /* 通栏导航条：横条本身横跨整个页面左右两端（两侧为白色） */
         .main-nav {
+            display: block;
+            margin-bottom: 0;
+            border-radius: 0;
+            overflow: visible;
+            width: 100%;
+            background: #ffffff;
+            /* 底部细分隔线 + 轻微投影，参考 THE ANSWER 的通栏导航 */
+            border-bottom: 1px solid #e0e0e0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+            /* 吸顶：滚动时保持可见 */
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        /* 导航条内层：与下方内容同宽（1000px），标签自然宽度、间距自动拉开到与内容等宽 */
+        .main-nav-inner {
             display: flex;
-            flex-wrap: nowrap;
-            justify-content: center;
+            flex-wrap: wrap;
+            justify-content: space-between;
             gap: 0;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            overflow: hidden;
+            max-width: 1000px;
+            margin: 0 auto;
+            /* 与 .container 的左右内边距保持一致，使首尾标签与下方内容左右边缘对齐 */
+            padding: 0 20px;
         }
 
         .nav-tab {
-            flex: 1;
-            padding: 12px 8px;
+            /* 自然宽度、居中排列，不拉伸占满整条 */
+            flex: 0 0 auto;
+            padding: 14px 18px;
             border-radius: 0;
-            border: 1px solid rgba(255,255,255,0.4);
-            border-right: none;
-            background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            color: white;
-            font-size: 16px;
+            border: none;
+            background: transparent;
+            color: #333;
+            font-size: 17px;
             font-family: inherit;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s;
             white-space: nowrap;
             text-align: center;
             -webkit-tap-highlight-color: transparent;
-        }
-
-        .nav-tab:first-child {
-            border-radius: 8px 0 0 8px;
-        }
-
-        .nav-tab:last-child {
-            border-radius: 0 8px 8px 0;
-            border-right: 1px solid rgba(255,255,255,0.4);
+            /* 参考 THE ANSWER：当前项底部彩色下划线 */
+            border-bottom: 3px solid transparent;
         }
 
         .nav-tab:hover {
-            background: rgba(255,255,255,0.35);
+            background: #f7f7f7;
+            color: #e51e21;
         }
 
         .nav-tab.active {
-            background: rgba(229, 30, 33, 0.85);
-            border-color: #e51e21;
-            color: white;
+            background: transparent;
+            color: #e51e21;
             font-weight: bold;
+            border-bottom: 3px solid #e51e21;
         }
 
         /* #endregion */
@@ -214,11 +216,9 @@
             min-width: 0;
             padding: 8px 22px;
             border-radius: 999px;
-            border: 1px solid rgba(255,255,255,0.45);
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            color: white;
+            border: 1px solid #ddd;
+            background: #f7f7f7;
+            color: #444;
             font-size: 14px;
             font-family: inherit;
             cursor: pointer;
@@ -226,19 +226,21 @@
             white-space: nowrap;
             text-align: center;
             -webkit-tap-highlight-color: transparent;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
             max-width: 100%;
         }
 
         .sub-nav-tab:hover {
-            background: rgba(255,255,255,0.3);
+            background: #eeeeee;
+            border-color: #e51e21;
+            color: #e51e21;
             transform: translateY(-1px);
         }
 
         .sub-nav-tab.active {
-            background: white;
-            border-color: white;
-            color: #e51e21;
+            background: #e51e21;
+            border-color: #e51e21;
+            color: white;
             font-weight: bold;
             box-shadow: 0 2px 8px rgba(229, 30, 33, 0.25);
         }
@@ -262,14 +264,12 @@
 
         /* 空页面占位 */
         .tab-empty {
-            background: rgba(255,255,255,0.5);
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
+            background: #fafafa;
             border-radius: 12px;
             padding: 40px 25px;
             margin-bottom: 25px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            border: 1px solid rgba(255,255,255,0.4);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+            border: 1px solid #eee;
             text-align: center;
             color: #888;
             font-size: 15px;
@@ -277,14 +277,12 @@
 
         /* 分类区块 */
         .category {
-            background: rgba(255,255,255,0.5);
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
+            background: #ffffff;
             border-radius: 12px;
             padding: 25px;
             margin-bottom: 25px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            border: 1px solid rgba(255,255,255,0.4);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            border: 1px solid #eeeeee;
         }
 
         .category-title {
@@ -306,13 +304,11 @@
         }
 
         .site-card {
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
+            background: #fafafa;
             border-radius: 8px;
             padding: 16px;
             transition: all 0.3s ease;
-            border: 1px solid rgba(255,255,255,0.25);
+            border: 1px solid #eeeeee;
         }
 
         .site-card:hover {
@@ -360,9 +356,10 @@
             display: grid;
             grid-template-columns: repeat(5, 1fr);
             gap: 1px;
-            border: 1px solid rgba(0,0,0,0.08);
+            border: 1px solid #e5e5e5;
             border-radius: 8px;
             overflow: hidden;
+            background: #e5e5e5;
         }
 
         .compact-item {
@@ -370,7 +367,7 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            background: rgba(255,255,255,0.4);
+            background: #ffffff;
             padding: 10px 8px;
             font-size: 14px;
             color: #333;
@@ -388,7 +385,7 @@
 
         .compact-placeholder,
         .compact-placeholder:hover {
-            background: rgba(255,255,255,0.4);
+            background: #ffffff;
             color: #333;
             font-weight: normal;
             cursor: default;
@@ -407,7 +404,7 @@
         }
 
         .guide-item {
-            background: rgba(255,255,255,0.4);
+            background: #f7f7f7;
             border-radius: 6px;
             padding: 10px 14px;
             display: flex;
@@ -471,18 +468,16 @@
         /* #region 6. 日历模块 */
         /* ==================== 日历模块 ==================== */
         .calendar-module {
-            background: rgba(255,255,255,0.5);
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
+            background: #ffffff;
             border-radius: 12px;
             padding: 18px 25px;
             margin-bottom: 25px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            border: 1px solid rgba(255,255,255,0.4);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            border: 1px solid #eeeeee;
         }
 
         .calendar-main-title {
-            font-size: 18px;
+            font-size: 22px;
             color: #333;
             font-weight: bold;
             text-align: center;
@@ -509,11 +504,11 @@
             width: 28px;
             height: 28px;
             border-radius: 50%;
-            border: 1px solid rgba(255,255,255,0.4);
-            background: rgba(255,255,255,0.2);
+            border: 1px solid #ddd;
+            background: #ffffff;
             cursor: pointer;
             font-size: 13px;
-            color: #fff;
+            color: #333;
             transition: all 0.2s;
             display: flex;
             align-items: center;
@@ -532,9 +527,9 @@
         }
 
         .calendar-nav:disabled:hover {
-            background: rgba(255,255,255,0.2);
-            color: rgba(255,255,255,0.6);
-            border-color: rgba(255,255,255,0.3);
+            background: #ffffff;
+            color: #bbb;
+            border-color: #e5e5e5;
         }
 
         .calendar-grid {
@@ -556,7 +551,7 @@
         }
 
         .calendar-cell {
-            background: rgba(255,255,255,0.35);
+            background: #f7f7f7;
             border-radius: 6px;
             padding: 5px 0;
             display: flex;
@@ -584,7 +579,7 @@
         }
 
         .calendar-cell.race-day {
-            background: white;
+            background: #ffebee;
             color: #e51e21;
             font-weight: bold;
             cursor: pointer;
@@ -604,7 +599,7 @@
 
         /* 其他比赛日 */
         .calendar-cell.other-race-day {
-            background: white;
+            background: #e3f2fd;
             color: #1565c0;
             font-weight: bold;
             cursor: pointer;
@@ -624,7 +619,7 @@
 
         /* 同时是驿传比赛日和其他比赛日 */
         .calendar-cell.race-day.other-race-day {
-            background: white;
+            background: #ffebee;
             color: #e51e21;
             border: 2px solid #e51e21;
         }
@@ -720,12 +715,12 @@
         }
 
         .legend-dot.race {
-            background: white;
+            background: #ffebee;
             border: 2px solid #e51e21;
         }
 
         .legend-dot.other-race {
-            background: white;
+            background: #e3f2fd;
             border: 2px solid #1976d2;
         }
 
@@ -734,18 +729,16 @@
         /* #region 7. 近期比赛日程 */
         /* ==================== 近期比赛日程 ==================== */
         .upcoming-races {
-            background: rgba(255,255,255,0.5);
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
+            background: #ffffff;
             border-radius: 12px;
             padding: 18px 25px;
             margin-bottom: 25px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            border: 1px solid rgba(255,255,255,0.4);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            border: 1px solid #eeeeee;
         }
 
         .upcoming-races-title {
-            font-size: 18px;
+            font-size: 22px;
             color: #333;
             font-weight: bold;
             text-align: center;
@@ -764,7 +757,7 @@
             padding: 8px 12px;
             border-radius: 6px;
             margin-bottom: 4px;
-            background: rgba(255,255,255,0.3);
+            background: #f7f7f7;
             font-size: 14px;
             color: #333;
             gap: 8px;
@@ -905,9 +898,9 @@
             }
 
             .calendar-nav:hover {
-                background: rgba(255,255,255,0.2);
-                color: rgba(255,255,255,0.6);
-                border-color: rgba(255,255,255,0.3);
+                background: #f5f5f5;
+                color: #333;
+                border-color: #ddd;
             }
 
             .calendar-nav:active {
@@ -917,9 +910,9 @@
             }
 
             .calendar-nav:disabled:active {
-                background: rgba(255,255,255,0.2);
-                color: rgba(255,255,255,0.6);
-                border-color: rgba(255,255,255,0.3);
+                background: #ffffff;
+                color: #bbb;
+                border-color: #e5e5e5;
             }
         }
 
@@ -938,9 +931,8 @@
         /* #region 10. 手机适配 */
         /* ==================== 手机适配 ==================== */
         @media (max-width: 768px) {
-            body {
-                padding: 20px 12px;
-                background-image: url('background-2.jpg');
+            .container {
+                padding: 20px 12px 30px;
             }
 
             .header h1 {
@@ -957,13 +949,12 @@
                 margin-bottom: 20px;
             }
 
-            .main-nav {
-                gap: 0;
-                margin-bottom: 12px;
+            .main-nav-inner {
+                padding: 0 12px;
             }
 
             .nav-tab {
-                padding: 10px 4px;
+                padding: 12px 10px;
                 font-size: 12px;
             }
 
@@ -1145,39 +1136,32 @@
                 margin-bottom: 12px;
             }
 
-            /* 主导航：换行为2行×3列，防止文字溢出 */
-            .main-nav {
+            /* 主导航：窄屏换行为2行×3列，防止文字溢出；通栏横条保持无圆角 */
+            /* 窄屏：导航条内层换行为 2行×3列，横条本身仍通宽 */
+            .main-nav-inner {
                 flex-wrap: wrap;
-                gap: 0;
-                margin-bottom: 10px;
-                border-radius: 6px;
-                overflow: hidden;
+                padding: 0 8px;
             }
 
             .nav-tab {
                 flex: 0 0 calc(100% / 3);
-                padding: 9px 4px;
+                padding: 10px 4px;
                 font-size: 11px;
                 min-width: 0;
-                border-radius: 0 !important;
+                border-radius: 0;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
             }
 
-            /* 第1行左上角 */
-            .nav-tab:first-child { border-radius: 6px 0 0 0 !important; }
-            /* 第1行右上角 */
-            .nav-tab:nth-child(3) { border-radius: 0 6px 0 0 !important; }
-            /* 第2行左下角 */
-            .nav-tab:nth-child(4) { border-radius: 0 0 0 6px !important; }
-            /* 第2行右下角 */
-            .nav-tab:last-child { border-radius: 0 0 6px 0 !important; }
+            /* 第1行与第2行之间用细分隔线区分 */
+            .nav-tab:nth-child(-n+3) {
+                border-bottom: 1px solid #eeeeee;
+            }
 
-            /* 第1行底部加边框分隔 */
-            .nav-tab:nth-child(3),
-            .nav-tab:nth-child(n+4):nth-child(-n+5) {
-                border-bottom: 1px solid rgba(255,255,255,0.4);
+            /* 当前选中项仍用红色下划线标识（放在最后以覆盖上面的分隔线） */
+            .nav-tab.active {
+                border-bottom: 3px solid #e51e21;
             }
 
             .sub-nav {
@@ -1234,8 +1218,6 @@
                 padding: 5px 8px;
             }
         }
-驿传：
-"2026-10-04": "奥球磨男子驿传"
 
         /* #endregion */
 
@@ -1265,22 +1247,20 @@
         /* 底部 */
         .footer {
             text-align: center;
-            color: white;
-            opacity: 0.7;
+            color: #888;
             margin-top: 40px;
             font-size: 13px;
         }
         .footer-privacy {
             margin-top: 8px;
-            opacity: 0.85;
         }
         .footer-privacy a {
-            color: white;
+            color: #666;
             text-decoration: underline;
             text-underline-offset: 2px;
         }
         .footer-privacy a:hover {
-            opacity: 1;
+            color: #e51e21;
         }
         /* #endregion */
     </style>
@@ -1297,9 +1277,8 @@
          8. 底部与隐私
     =================================== -->
 
-    <div class="container">
-        <!-- #region 1. 主导航栏 -->
-        <!-- 语言切换按钮 -->
+    <div class="container container-header">
+        <!-- #region 1. 语言切换按钮与头部 -->
         <div class="lang-switch-wrap">
             <div class="lang-switch">
                 <button class="lang-btn active" data-lang="zh" id="btnZh">中文</button>
@@ -1311,13 +1290,16 @@
         <div class="header">
             <h1 data-i18n="siteTitle">日本驿传观赛导航</h1>
             <p class="subtitle">
-                <span data-i18n="siteDesc1">本网站定期更新日本驿传比赛信息，并收录驿传比赛、陆上竞技联盟、大学及实业团陆上竞技部、选手主页、陆上竞技媒体等官方网站，方便对日本驿传比赛感兴趣的朋友们查阅资料。</span><br>
+                <span data-i18n="siteDesc1">本网站每月更新日本驿传比赛信息，并收录相关网站及攻略，欢迎查阅。</span><br>
                 <span data-i18n="siteDesc2">网站在不断完善中，如有意见或建议请联系</span><a class="contact-link" href="https://xhslink.com/m/3iTY27O5kzz" target="_blank">@温暖小葵</a>
             </p>
         </div>
+        <!-- #endregion -->
+    </div>
 
-        <!-- ==================== 主导航栏 ==================== -->
-        <div class="main-nav" id="mainNav">
+    <!-- ==================== 通栏导航条：横条通宽，标签居中并与下方内容对齐 ==================== -->
+    <nav class="main-nav" id="mainNav">
+        <div class="main-nav-inner">
             <button class="nav-tab active" data-tab="race-info" data-i18n="navRaceInfo">比赛信息</button>
             <button class="nav-tab" data-tab="orgs" data-i18n="navOrgs">陆上竞技联盟</button>
             <button class="nav-tab" data-tab="clubs" data-i18n="navClubs">陆上竞技部</button>
@@ -1325,8 +1307,10 @@
             <button class="nav-tab" data-tab="media" data-i18n="navMedia">陆上竞技媒体</button>
             <button class="nav-tab" data-tab="guide" data-i18n="navGuide">观赛/巡礼</button>
         </div>
-        <!-- #endregion -->
+    </nav>
+    <!-- #endregion -->
 
+    <div class="container">
         <!-- #region 2. 标签页：比赛信息 -->
         <!-- ==================== 标签页：比赛信息 ==================== -->
         <div class="tab-page active" id="tab-race-info">
@@ -2051,7 +2035,7 @@
         var I18N = {
             zh: {
                 siteTitle: '日本驿传观赛导航',
-                siteDesc1: '本网站定期更新日本驿传比赛信息，并收录驿传比赛、陆上竞技联盟、大学及实业团陆上竞技部、选手主页、陆上竞技媒体等官方网站，方便对日本驿传比赛感兴趣的朋友们查阅资料。',
+                siteDesc1: '本网站每月更新日本驿传比赛信息，并收录相关网站及攻略，欢迎查阅。',
                 siteDesc2: '网站在不断完善中，如有意见或建议请联系',
                 calendarMainTitle: '日本驿传比赛日历',
                 legendToday: '今日',
@@ -2256,7 +2240,7 @@
             },
             ja: {
                 siteTitle: '日本駅伝観戦ナビ',
-                siteDesc1: '当サイトは日本の駅伝大会情報を定期的に更新し、駅伝大会、陸上競技連盟、大学・実業団陸上競技部、選手ページ、陸上競技メディアなどの公式サイトをまとめ、日本の駅伝に興味のある方々の情報収集をサポートします。',
+                siteDesc1: '本サイトは毎月日本の駅伝大会情報を更新し、関連するウェブサイトや攻略をまとめています。ぜひご活用ください。',
                 siteDesc2: 'サイトは随時更新中です。ご意見・ご要望がございましたら',
                 calendarMainTitle: '日本駅伝大会カレンダー',
                 legendToday: '今日',
